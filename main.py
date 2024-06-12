@@ -24,8 +24,6 @@ all_sprites.add(enemy)
 camera_group = CameraGroup.CameraGroup()
 camera_group.add(all_sprites)
 
-
-
 #game loop 
 while running:
     clock.tick(FPS) #FPS frames per second
@@ -33,6 +31,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN: #shoot a bullet
+            if event.button == 1:
+                bullet = player.shoot()
+                if bullet:
+                    all_sprites.add(bullet)
+                    camera_group.add(bullet)
     
     #update the game
     all_sprites.update()

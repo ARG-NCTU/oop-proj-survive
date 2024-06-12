@@ -29,6 +29,7 @@ class Player(Robot.Robot):
             self.rect.y += self.speed
 
     def shoot(self):
+        print("Shooting")
         #shoot a bullet in the direction the mouse is pointing
         mouse_pos = pygame.mouse.get_pos()
         direction = pygame.math.Vector2(mouse_pos[0] - self.rect.centerx, mouse_pos[1] - self.rect.centery)
