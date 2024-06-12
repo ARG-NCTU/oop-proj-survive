@@ -5,7 +5,7 @@ class Enemy(Robot.Robot):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.image.fill((0, 0, 255))
-        self.speed = 0.25
+        self.speed = 0.1
         self.player_x = 400
         self.player_y = 300
     def update_player_position(self, player_x, player_y):
