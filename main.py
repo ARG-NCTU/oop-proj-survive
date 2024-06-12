@@ -18,19 +18,14 @@ all_sprites = pygame.sprite.Group()
 player = Player.Player(WIDTH/2, HEIGHT/2)
 all_sprites.add(player)
 
-#enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
-#all_sprites.add(enemy)
-
 # Create a group for the enemies
 enemies = pygame.sprite.Group()
-
+enemy_number = 5
 # Create 10 enemies
-for i in range(10):
+for i in range(enemy_number):
     # Create an enemy at a random position
     enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600))
-    # Add the enemy to the enemies group
     enemies.add(enemy)
-    # Also add the enemy to the all_sprites group if you have one
     all_sprites.add(enemy)
 
 #initialize the camera
@@ -53,14 +48,22 @@ while running:
                     camera_group.add(bullet)
     
     #update the game
-    # Update enemies
-    enemies.update()
-    # Draw enemies
     all_sprites.update()
-    # Update player position for all enemies
+    
     for enemy in enemies:
+        # Update player position for all enemies
         enemy.update_player_position(player.rect.x, player.rect.y)
-
+        #check if the enemy is dead
+        if enemy.health <= 0:
+            enemy.kill()
+            enemy_number -= 1
+    
+    #enemy 死掉的时候，重新生成一个enemy
+    if enemy_number < 5:
+        enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600))
+        enemies.add(enemy)
+        all_sprites.add(enemy)
+        enemy_number += 1
     #draw the screen
     #screen.fill(WHITE)
     camera_group.custom_draw(player)
