@@ -14,11 +14,11 @@ running = True
 
 #initialize the robot
 all_sprites = pygame.sprite.Group()
-Player = Robot.Robot(WIDTH/2, HEIGHT/2)
-all_sprites.add(Player)
+player = Robot.Robot(WIDTH/2, HEIGHT/2)
+all_sprites.add(player)
 
-Enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
-all_sprites.add(Enemy)
+enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
+all_sprites.add(enemy)
 
 #initialize the camera
 camera_group = CameraGroup.CameraGroup()
@@ -38,7 +38,7 @@ while running:
 
     #draw the screen
     #screen.fill(WHITE)
-    camera_group.custom_draw()
+    camera_group.custom_draw(player)
     pygame.display.update()
 
 pygame.quit()
