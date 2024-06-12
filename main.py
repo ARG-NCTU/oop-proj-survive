@@ -17,7 +17,7 @@ all_sprites = pygame.sprite.Group()
 player = Player.Player(WIDTH/2, HEIGHT/2)
 all_sprites.add(player)
 
-enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
+enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200, player.rect.x, player.rect.y)
 all_sprites.add(enemy)
 
 #initialize the camera
@@ -37,7 +37,7 @@ while running:
     #update the game
     all_sprites.update()
 
-    #draw the screen 
+    #draw the screen
     #screen.fill(WHITE)
     camera_group.custom_draw(player)
     pygame.display.update()
