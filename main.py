@@ -27,6 +27,7 @@ camera_group.add(all_sprites)
 #game loop 
 while running:
     clock.tick(FPS) #FPS frames per second
+    screen.fill(WHITE)
     #get all the events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
