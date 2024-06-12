@@ -1,3 +1,4 @@
+import random
 import pygame
 import Robot, Enemy, CameraGroup, Bullet, Player
 
@@ -17,8 +18,20 @@ all_sprites = pygame.sprite.Group()
 player = Player.Player(WIDTH/2, HEIGHT/2)
 all_sprites.add(player)
 
-enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
-all_sprites.add(enemy)
+#enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
+#all_sprites.add(enemy)
+
+# Create a group for the enemies
+enemies = pygame.sprite.Group()
+
+# Create 10 enemies
+for i in range(10):
+    # Create an enemy at a random position
+    enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600))
+    # Add the enemy to the enemies group
+    enemies.add(enemy)
+    # Also add the enemy to the all_sprites group if you have one
+    all_sprites.add(enemy)
 
 #initialize the camera
 camera_group = CameraGroup.CameraGroup()
@@ -40,8 +53,14 @@ while running:
                     camera_group.add(bullet)
     
     #update the game
+    # Update enemies
+    enemies.update()
+    # Draw enemies
     all_sprites.update()
-    enemy.update_player_position(player.rect.x, player.rect.y)
+    # Update player position for all enemies
+    for enemy in enemies:
+        enemy.update_player_position(player.rect.x, player.rect.y)
+
     #draw the screen
     #screen.fill(WHITE)
     camera_group.custom_draw(player)
