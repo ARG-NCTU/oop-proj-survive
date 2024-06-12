@@ -24,7 +24,7 @@ enemy_number = 5
 # Create 10 enemies
 for i in range(enemy_number):
     # Create an enemy at a random position
-    enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600))
+    enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600), random.randint(0, 2))
     enemies.add(enemy)
     all_sprites.add(enemy)
 
@@ -60,7 +60,7 @@ while running:
     
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < 5:
-        enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600))
+        enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600), random.randint(0, 2))
         enemies.add(enemy)
         all_sprites.add(enemy)
         enemy_number += 1
