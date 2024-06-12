@@ -1,5 +1,5 @@
 import pygame
-import Robot
+import Robot, Enemy, CameraGroup
 
 FPS = 60 #frames per second
 WHITE = (255, 255, 255)
@@ -17,6 +17,14 @@ all_sprites = pygame.sprite.Group()
 Player = Robot.Robot(WIDTH/2, HEIGHT/2)
 all_sprites.add(Player)
 
+Enemy = Enemy.Enemy(WIDTH/2, HEIGHT/2+200)
+all_sprites.add(Enemy)
+
+#initialize the camera
+camera_group = CameraGroup.CameraGroup()
+camera_group.add(all_sprites)
+
+
 #game loop 
 while running:
     clock.tick(FPS) #FPS frames per second
@@ -29,8 +37,8 @@ while running:
     all_sprites.update()
 
     #draw the screen
-    screen.fill(WHITE)
-    all_sprites.draw(screen)
+    #screen.fill(WHITE)
+    camera_group.custom_draw()
     pygame.display.update()
 
 pygame.quit()
