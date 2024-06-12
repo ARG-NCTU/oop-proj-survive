@@ -65,7 +65,6 @@ while running:
         all_sprites.add(enemy)
         enemy_number += 1
     #draw the screen
-    #screen.fill(WHITE)
     camera_group.custom_draw(player)
     pygame.display.update()
 
