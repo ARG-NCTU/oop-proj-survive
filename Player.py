@@ -7,7 +7,8 @@ class Player(Robot.Robot):
         self.image.fill((0, 255, 255))
         
         #Attributes
-        self.speed = 5
+        self.speed = 2
+        self.max_speed = 5
         self.health = 100
         self.level = 1
 
@@ -18,18 +19,22 @@ class Player(Robot.Robot):
 
 
     def update(self):
+        super().update()
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.rect.x -= self.speed
+            super().move(-self.speed, 0)
         if keys[pygame.K_RIGHT]:
-            self.rect.x += self.speed
+            super().move(self.speed, 0)
         if keys[pygame.K_UP]:
-            self.rect.y -= self.speed
+            super().move(0, -self.speed)
         if keys[pygame.K_DOWN]:
-            self.rect.y += self.speed
+            super().move(0, self.speed)
+
+    def draw(self, screen):
+        super().draw(screen)
 
     def shoot(self):
-        print("Shooting")
+        #print("Shooting")
         #shoot a bullet in the direction the mouse is pointing
         mouse_pos = pygame.mouse.get_pos()
         direction = pygame.math.Vector2(mouse_pos[0] - self.rect.centerx, mouse_pos[1] - self.rect.centery)
@@ -37,8 +42,8 @@ class Player(Robot.Robot):
         if self.bullets > 0:
             bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
             self.bullets -= 1
-            print("Bullets: ", direction)
+            #print("Bullets: ", direction)
             return bullet
-
-    def draw(self, screen):
-        super().draw(screen)
+        
+    def move(self, dx, dy):
+        return super().move(dx, dy)
