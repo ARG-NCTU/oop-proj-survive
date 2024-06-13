@@ -75,14 +75,16 @@ while running:
         # Update player position for all enemies
         enemy.update_player_position(player.rect.x, player.rect.y)
         # Check if the enemy collides with each other
-        for other_enemy in enemies:
-            if enemy != other_enemy:
-                if pygame.sprite.collide_rect(enemy, other_enemy):
-                    # Move the enemies in random directions
-                    enemy.move(random.randint(-3, 3), random.randint(-3, 3))
-                    other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
+        # for other_enemy in enemies:
+        #     if enemy != other_enemy:
+        #         if pygame.sprite.collide_rect(enemy, other_enemy):
+        #             # Move the enemies in random directions
+        #             enemy.move(random.randint(-3, 3), random.randint(-3, 3))
+        #             other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
         # Check if the enemy collides with the player
-        if pygame.sprite.collide_rect(enemy, player):
+        if pygame.sprite.collide_circle(enemy, player):
+            # move the enemy away from the player
+            enemy.move((enemy.rect.x - player.rect.x) * 25, (enemy.rect.y - player.rect.y) * -25)
             player.health -= enemy.attack
             if player.health <= 0:
                 running = False
