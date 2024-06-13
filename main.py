@@ -39,7 +39,12 @@ enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
 max_enemies = 5 #maximum number of enemies
 #first enemy
-enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 800), random.randint(0, 2))
+'''enemy_x = random.randint(0, 800)
+enemy_y = random.randint(0, 800)
+if abs(enemy_x - player.rect.x)<100 and abs(enemy_y - player.rect.y)<100:
+    enemy_x = random.choice((random.randint(0, 200), random.randint(600, 800)))
+    enemy_y = random.choice((random.randint(0, 200), random.randint(600, 800)))'''
+enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2))
 enemies.add(enemy)
 space.add(enemy.body, enemy.shape)
 all_sprites.add(enemy)
@@ -101,7 +106,7 @@ while running:
     
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
-        enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 800), random.randint(0, 2))
+        enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2))
         enemies.add(enemy)
         space.add(enemy.body, enemy.shape)
         all_sprites.add(enemy)
