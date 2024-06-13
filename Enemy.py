@@ -13,19 +13,22 @@ class Enemy(Robot2.Robot2):
             self.health = 100
             self.max_health = 100
             self.attack = 6
-            pygame.draw.circle(self.image, (255, 0, 0), (25, 25), 25)
+            pygame.draw.circle(self.image, (155, 0, 0), (25, 25), 25)
+            pygame.draw.circle(self.image, (255, 0, 0), (25, 25), 15)
             self.speed = 20
         elif self.enemytype == 1:
             self.health = 40
             self.max_health = 40
             self.attack = 10
             pygame.draw.circle(self.image, (0, 155, 0), (25, 25), 25)
+            pygame.draw.circle(self.image, (0, 255, 0), (25, 25), 15)
             self.speed = 30
         else:  
             self.health = 150
             self.max_health = 150
             self.attack = 15
-            pygame.draw.circle(self.image, (0, 0, 255), (25, 25), 25)
+            pygame.draw.circle(self.image, (0, 0, 155), (25, 25), 25)
+            pygame.draw.circle(self.image, (0, 0, 255), (25, 25), 15)
             self.speed = 10
     
     def draw_health_bar(self, screen):
