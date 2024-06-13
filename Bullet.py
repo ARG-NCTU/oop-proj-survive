@@ -14,8 +14,8 @@ class Bullet(pygame.sprite.Sprite):
         #move the bullet in the direction it was shot
         self.rect.x += self.speed * self.direction.x
         self.rect.y += self.speed * self.direction.y
-        if self.rect.x < 0 or self.rect.x > 2000 or self.rect.y < 0 or self.rect.y > 2000:
-            self.kill()
+        #if self.rect.x < 0 or self.rect.x > 2000 or self.rect.y < 0 or self.rect.y > 2000:
+           # self.kill()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
