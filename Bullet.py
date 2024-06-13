@@ -1,4 +1,5 @@
 import pygame
+import Setting as s
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, speed, direction):
@@ -6,7 +7,7 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface((10, 10))
         self.image.fill((100, 100, 100))
         self.rect = self.image.get_rect()
-        self.rect.center = (x, y)  
+        self.rect.center = self.covert_xy_to_pygame(x, y)
         self.speed = speed
         self.direction = direction
 
@@ -19,3 +20,6 @@ class Bullet(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, self.rect.topleft)
+
+    def covert_xy_to_pygame(self, x, y):
+        return x, s.HEIGHT - y
