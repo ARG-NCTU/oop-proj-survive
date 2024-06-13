@@ -1,10 +1,20 @@
 import random
 import pygame
 import Robot, Enemy, CameraGroup, Bullet, Player
+import pymunk
+
 
 FPS = 60 #frames per second
 WHITE = (255, 255, 255)
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 800, 800
+
+LEFT = 25
+RIGHT = 775
+TOP = 25
+BOTTOM = 775
+MIDDLEX = (LEFT + RIGHT) / 2
+MIDDLEY = (TOP + BOTTOM) / 2
+
 
 #initialize the pygame
 pygame.init()
@@ -13,9 +23,13 @@ pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 running = True
 
+#initialize the pymunk
+space = pymunk.Space()
+
 #initialize the robot
 all_sprites = pygame.sprite.Group()
 player = Player.Player(WIDTH/2, HEIGHT/2)
+space.add(player.body, player.shape)
 all_sprites.add(player)
 
 # Create a group for the enemies
@@ -25,6 +39,7 @@ max_enemies = 5 #maximum number of enemies
 #first enemy
 enemy = Enemy.Enemy(random.randint(player.rect.x-400, player.rect.x+400), random.randint(player.rect.y-300, player.rect.y+300), random.randint(0, 2))
 enemies.add(enemy)
+space.add(enemy.body, enemy.shape)
 all_sprites.add(enemy)
 
 #initialize the camera
@@ -33,10 +48,11 @@ camera_group.add(all_sprites)
 
 # Create a group for bullets
 bullets = pygame.sprite.Group()
+
+
 #game loop 
 while running:
-    clock.tick(FPS) #FPS frames per second
-    screen.fill(WHITE)
+    
     #get all the events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -77,13 +93,20 @@ while running:
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
         enemy = Enemy.Enemy(random.randint(player.rect.x-400, player.rect.x+400), random.randint(player.rect.y-300, player.rect.y+300), random.randint(0, 2))
         enemies.add(enemy)
+        space.add(enemy.body, enemy.shape)
         all_sprites.add(enemy)
         camera_group.add(enemy)
         enemy_number += 1
     
 
     #draw the screen
+    screen.fill(WHITE)
     camera_group.custom_draw(player)
-    pygame.display.update()
+    #player.draw(screen)
+    #all_sprites.draw(screen)
+
+    pygame.display.flip()
+    clock.tick(FPS) #FPS frames per second
+    space.step(1/FPS) # Step the physics simulation
 
 pygame.quit()

@@ -1,14 +1,15 @@
 import pygame
 import Robot, Bullet
+import Robot2
 
-class Player(Robot.Robot):
+class Player(Robot2.Robot2):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.image.fill((0, 255, 255))
+        # self.image.fill((0, 255, 255))
         
         #Attributes
-        self.speed = 2
-        self.max_speed = 5
+        self.speed = 50
+        self.max_speed = 500
         self.health = 100
         self.level = 1
 

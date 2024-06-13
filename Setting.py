@@ -1,0 +1,10 @@
+FPS = 60 #frames per second
+WHITE = (255, 255, 255)
+WIDTH, HEIGHT = 800, 800
+
+LEFT = 25
+RIGHT = 775
+TOP = 25
+BOTTOM = 775
+MIDDLEX = (LEFT + RIGHT) / 2
+MIDDLEY = (TOP + BOTTOM) / 2
