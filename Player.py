@@ -69,8 +69,8 @@ class Player(Robot2.Robot2):
         mouse_pos = pygame.mouse.get_pos()
         direction = pygame.math.Vector2(mouse_pos[0] - self.rect.centerx, mouse_pos[1] - self.rect.centery)
         direction = direction.normalize()
-        if self.bullets > 0:
-            bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+        if self.bullets > 0 or 1: #infinte bullets
+            bullet = Bullet.Bullet(self.body.position.x, self.body.position.y, self.bullet_speed, direction)
             self.bullets -= 1
             #print("Bullets: ", direction)
             return bullet
