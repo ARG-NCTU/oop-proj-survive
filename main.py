@@ -31,6 +31,8 @@ all_sprites.add(enemy)
 camera_group = CameraGroup.CameraGroup()
 camera_group.add(all_sprites)
 
+# Create a group for bullets
+bullets = pygame.sprite.Group()
 #game loop 
 while running:
     clock.tick(FPS) #FPS frames per second
@@ -45,6 +47,7 @@ while running:
                 if bullet:
                     all_sprites.add(bullet)
                     camera_group.add(bullet)
+                    bullets.add(bullet)
 
     
     #update the game
@@ -61,9 +64,11 @@ while running:
                     enemy.move(random.randint(-3, 3), random.randint(-3, 3))
                     other_enemy.move(random.randint(-3, 3), random.randint(-3, 3))
         #check if the enemy is dead
-        if enemy.health <= 0:
-            enemy.kill()
-            enemy_number -= 1
+        for bullet in bullets:
+            enemy.Attacked(player.attack, bullet)
+            if enemy.health <= 0:
+                enemy.kill()
+                enemy_number -= 1
     
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
