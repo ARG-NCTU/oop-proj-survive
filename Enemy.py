@@ -12,12 +12,12 @@ class Enemy(Robot.Robot):
             self.health = 100
             self.attack = 10
             self.image.fill((255, 0, 0))
-            self.speed = 0.3
+            self.speed = 0.2
         elif self.enemytype == 1:
             self.health = 40
             self.attack = 20
             self.image.fill((0, 255, 0))
-            self.speed = 0.5
+            self.speed = 0.3
         else:  
             self.health = 150
             self.attack = 25
