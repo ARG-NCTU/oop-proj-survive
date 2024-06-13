@@ -38,7 +38,7 @@ all_sprites.add(player)
 # Create a group for the enemies
 enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
-max_enemies = 0 #maximum number of enemies
+max_enemies = 5 #maximum number of enemies
 #first enemy
 enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2), player)
 enemies.add(enemy)
