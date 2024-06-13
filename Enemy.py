@@ -59,7 +59,8 @@ class Enemy(Robot2.Robot2):
         self.draw_health_bar(pygame.display.get_surface())
 
     def Attacked(self, damage, bullet):
-        if self.rect.colliderect(bullet.rect):
+        #ceheck the circle if collides with the bullet
+        if pygame.sprite.collide_circle(self, bullet):
             self.health -= damage
             bullet.kill()
          
