@@ -15,7 +15,7 @@ class Player(Robot2.Robot2):
         self.max_health = 100 
 
         self.attack = 30
-        self.bullets = 50
+        self.bullets = 10
         self.bullet_speed = 10
         self.bullet_cooldown = 500
         self.health_bar_size = [50, 10]
@@ -39,6 +39,12 @@ class Player(Robot2.Robot2):
         if keys[pygame.K_DOWN]:
             super().move(0, self.speed)
         self.draw_health_bar(pygame.display.get_surface())
+        if self.bullets==0:
+            if self.bullet_cooldown > 0:
+                self.bullet_cooldown -= 1
+            else:
+                self.bullets = 10
+                self.bullet_cooldown = 500
 
     def draw(self, screen):
         super().draw(screen)

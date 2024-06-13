@@ -4,8 +4,8 @@ import Setting as s
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, speed, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((10, 10))
-        self.image.fill((100, 100, 100))
+        self.image = pygame.Surface((15, 15))
+        self.image.fill((0, 0, 0))
         self.rect = self.image.get_rect()
         self.rect.center = self.covert_xy_to_pygame(x, y)
         self.speed = speed

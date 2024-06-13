@@ -39,7 +39,7 @@ enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
 max_enemies = 5 #maximum number of enemies
 #first enemy
-enemy = Enemy.Enemy(random.randint(player.rect.x-400, player.rect.x+400), random.randint(player.rect.y-300, player.rect.y+300), random.randint(0, 2))
+enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 800), random.randint(0, 2))
 enemies.add(enemy)
 space.add(enemy.body, enemy.shape)
 all_sprites.add(enemy)
@@ -88,7 +88,7 @@ while running:
             player.health -= enemy.attack
             if player.health <= 0:
                 running = False
-                      
+
         for bullet in bullets:
             #check if the enemy is dead or attacted
             enemy.Attacked(player.attack, bullet)
@@ -96,12 +96,12 @@ while running:
                 enemy.kill()
                 enemy_number -= 1
             #check if the bullet is out of the screen
-            if bullet.rect.x < player.rect.x-400 or bullet.rect.x > player.rect.x+400 or bullet.rect.y < player.rect.y-300 or bullet.rect.y > player.rect.y+300 :
+            if bullet.rect.x < 0 or bullet.rect.x > 800 or bullet.rect.y < 0 or bullet.rect.y > 800 :
                 bullet.kill()
     
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
-        enemy = Enemy.Enemy(random.randint(player.rect.x-400, player.rect.x+400), random.randint(player.rect.y-300, player.rect.y+300), random.randint(0, 2))
+        enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 800), random.randint(0, 2))
         enemies.add(enemy)
         space.add(enemy.body, enemy.shape)
         all_sprites.add(enemy)
