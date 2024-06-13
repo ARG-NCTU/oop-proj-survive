@@ -14,8 +14,8 @@ class Player(Robot2.Robot2):
         self.level = 1
         self.max_health = 100 
 
-        self.attack = 10
-        self.bullets = 10
+        self.attack = 30
+        self.bullets = 50
         self.bullet_speed = 10
         self.bullet_cooldown = 500
         self.health_bar_size = [50, 10]
