@@ -76,7 +76,7 @@ class Player(Robot2.Robot2):
         #print("Shooting")
         #shoot a bullet in the direction the mouse is pointing
         mouse_pos = pygame.mouse.get_pos()
-        direction = pygame.math.Vector2(mouse_pos[0] -s.MIDDLEX, mouse_pos[1]-s.MIDDLEY)
+        direction = pygame.math.Vector2(mouse_pos[0] - s.scrWIDTH/2 , mouse_pos[1] - s.scrHEIGHT/2)
         #print("Bullets: ", direction)
         direction = direction.normalize()
         if self.bullets > 0 or 1: #infinte bullets

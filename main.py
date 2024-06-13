@@ -1,6 +1,6 @@
 import random
 import pygame
-import Robot, Enemy, CameraGroup, Bullet, Player
+import Robot, Enemy, CameraGroup, Bullet, Player, Wall
 import pymunk
 
 ### Note that the coordinates follow the pymunk coordinate system
@@ -8,13 +8,13 @@ import pymunk
 
 FPS = 60 #frames per second
 WHITE = (255, 255, 255)
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 2000, 2000
 scrWIDTH, scrHEIGHT = 800, 800
 
 LEFT = 25
-RIGHT = 775
+RIGHT = WIDTH-25
 TOP = 25
-BOTTOM = 775
+BOTTOM = HEIGHT-25
 MIDDLEX = (LEFT + RIGHT) / 2
 MIDDLEY = (TOP + BOTTOM) / 2
 
@@ -31,7 +31,7 @@ space = pymunk.Space()
 
 #initialize the robot
 all_sprites = pygame.sprite.Group()
-player = Player.Player(WIDTH/2, HEIGHT/2)
+player = Player.Player(400, 1600)
 space.add(player.body, player.shape)
 all_sprites.add(player)
 
@@ -52,6 +52,15 @@ camera_group.add(all_sprites)
 # Create a group for bullets
 bullets = pygame.sprite.Group()
 
+#initialize the walls
+wall_left = Wall.Wall([LEFT, TOP], [LEFT, BOTTOM],2)
+wall_right = Wall.Wall((RIGHT, TOP), (RIGHT, BOTTOM),2)
+wall_top = Wall.Wall((LEFT, TOP), (RIGHT, TOP),2)
+wall_bottom = Wall.Wall((LEFT, BOTTOM), (RIGHT, BOTTOM),2)
+space.add(wall_left.body, wall_left.shape)
+space.add(wall_right.body, wall_right.shape)
+space.add(wall_top.body, wall_top.shape)
+space.add(wall_bottom.body, wall_bottom.shape)
 
 #game loop 
 while running:
@@ -93,6 +102,11 @@ while running:
     player.draw_health_bar(camera_group.temp_surface)
     for enemy in enemies:
         enemy.draw_health_bar(camera_group.temp_surface)
+
+    wall_left.draw(camera_group.temp_surface)
+    wall_right.draw(camera_group.temp_surface)
+    wall_top.draw(camera_group.temp_surface)
+    wall_bottom.draw(camera_group.temp_surface)
     camera_group.custom_draw(player)
     #player.draw(screen)
     #all_sprites.draw(screen)
