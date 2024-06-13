@@ -3,6 +3,8 @@ import pygame
 import Robot, Enemy, CameraGroup, Bullet, Player
 import pymunk
 
+### Note that the coordinates follow the pymunk coordinate system
+### where (0, 0) is at the bottom left corner of the screen
 
 FPS = 60 #frames per second
 WHITE = (255, 255, 255)

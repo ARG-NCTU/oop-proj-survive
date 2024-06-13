@@ -39,7 +39,7 @@ class Enemy(Robot2.Robot2):
         if self.player_x == self.rect.x and self.player_y == self.rect.y:
             direction_x = random.randint(-3, 3)
             direction_y = random.randint(-3, 3)
-        super().move(direction_x*self.speed, direction_y*self.speed)
+        super().move(direction_x*self.speed, -direction_y*self.speed)
 
     def Attacked(self, damage, bullet):
         if self.rect.colliderect(bullet.rect):

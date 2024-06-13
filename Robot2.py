@@ -11,11 +11,11 @@ class Robot2(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.radius = 25
         pygame.draw.circle(self.image, (255, 200, 0), (25, 25), 25)
-        self.rect.center = (s.MIDDLEX, s.MIDDLEY)
+        self.rect.center = self.covert_xy_to_pygame(x, y)
 
         #pymunk
         self.body = pymunk.Body()
-        self.body.position = s.MIDDLEX, s.MIDDLEY
+        self.body.position = x,y
         self.body.velocity = 0, 0
         self.shape = pymunk.Circle(self.body, 25)
         self.shape.density = 1
@@ -37,7 +37,7 @@ class Robot2(pygame.sprite.Sprite):
     def update(self):
         pass
         #update the robot's position
-        self.rect.center = self.body.position
+        self.rect.center = self.covert_xy_to_pygame(self.body.position.x, self.body.position.y)
     
         #limit the robot's speed
         speed = self.body.velocity.length
@@ -57,6 +57,9 @@ class Robot2(pygame.sprite.Sprite):
         pass
         #move the robot smoothly with acceleration
         self.body.velocity += dx, dy
+
+    def covert_xy_to_pygame(self, x, y):
+        return x, s.HEIGHT - y
 
             
         
