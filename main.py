@@ -104,9 +104,11 @@ while running:
     #draw the screen
     screen.fill(WHITE)
     camera_group.custom_draw(player)
+    player.draw_health_bar(screen)
+    for enemy in enemies:
+        enemy.draw_health_bar(screen)
     #player.draw(screen)
     #all_sprites.draw(screen)
-
     pygame.display.flip()
     clock.tick(FPS) #FPS frames per second
     space.step(1/FPS) # Step the physics simulation
