@@ -39,11 +39,6 @@ enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
 max_enemies = 5 #maximum number of enemies
 #first enemy
-'''enemy_x = random.randint(0, 800)
-enemy_y = random.randint(0, 800)
-if abs(enemy_x - player.rect.x)<100 and abs(enemy_y - player.rect.y)<100:
-    enemy_x = random.choice((random.randint(0, 200), random.randint(600, 800)))
-    enemy_y = random.choice((random.randint(0, 200), random.randint(600, 800)))'''
 enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2))
 enemies.add(enemy)
 space.add(enemy.body, enemy.shape)
@@ -87,8 +82,6 @@ while running:
                     enemy.move(random.randint(-3, 3), random.randint(-3, 3))
                     other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
         # Check if the enemy collides with the player
-        # If the enemy collides with the player, the player loses health
-        # If the player's health is less than or equal to 0, the game ends
         if pygame.sprite.collide_rect(enemy, player):
             player.health -= enemy.attack
             if player.health <= 0:

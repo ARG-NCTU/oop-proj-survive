@@ -15,9 +15,10 @@ class Player(Robot2.Robot2):
         self.max_health = 100 
 
         self.attack = 30
+        self.max_bullets = 10
         self.bullets = 10
         self.bullet_speed = 10
-        self.bullet_cooldown = 500
+        self.bullet_cooldown = 300
         self.health_bar_size = [50, 10]
 
     def draw_health_bar(self, screen):
@@ -44,8 +45,21 @@ class Player(Robot2.Robot2):
                 self.bullet_cooldown -= 1
             else:
                 self.bullets = 10
-                self.bullet_cooldown = 500
-
+                self.bullet_cooldown = 300
+        if pygame.time.get_ticks() % 10000 == 0:
+            self.level_up()
+        
+    def level_up(self):
+        self.level += 1
+        self.max_health += 10
+        if self.health + 10 <= self.max_health:
+            self.health += 10
+        self.attack += 5
+        self.bullets += 5
+        self.max_bullets += 5
+        self.bullet_speed += 2
+        self.speed += 5
+        self.max_speed += 10
     def draw(self, screen):
         super().draw(screen)
 
