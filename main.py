@@ -53,6 +53,12 @@ while running:
     for enemy in enemies:
         # Update player position for all enemies
         enemy.update_player_position(player.rect.x, player.rect.y)
+        # Check if the enemy collides with each other
+        for other_enemy in enemies:
+            if enemy != other_enemy:
+                if pygame.sprite.collide_rect(enemy, other_enemy):
+                    enemy.move(random.randint(-3, 3), random.randint(-3, 3))
+                    other_enemy.move(random.randint(-3, 3), random.randint(-3, 3))
         #check if the enemy is dead
         if enemy.health <= 0:
             enemy.kill()
