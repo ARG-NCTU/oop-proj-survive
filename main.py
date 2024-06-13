@@ -20,13 +20,12 @@ all_sprites.add(player)
 
 # Create a group for the enemies
 enemies = pygame.sprite.Group()
-enemy_number = 5
-# Create 10 enemies
-for i in range(enemy_number):
-    # Create an enemy at a random position
-    enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600), random.randint(0, 2))
-    enemies.add(enemy)
-    all_sprites.add(enemy)
+enemy_number = 1 #number of enemies
+max_enemies = 5 #maximum number of enemies
+#first enemy
+enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600), random.randint(0, 2))
+enemies.add(enemy)
+all_sprites.add(enemy)
 
 #initialize the camera
 camera_group = CameraGroup.CameraGroup()
@@ -46,6 +45,7 @@ while running:
                 if bullet:
                     all_sprites.add(bullet)
                     camera_group.add(bullet)
+
     
     #update the game
     all_sprites.update()
@@ -57,6 +57,7 @@ while running:
         for other_enemy in enemies:
             if enemy != other_enemy:
                 if pygame.sprite.collide_rect(enemy, other_enemy):
+                    # Move the enemies in random directions
                     enemy.move(random.randint(-3, 3), random.randint(-3, 3))
                     other_enemy.move(random.randint(-3, 3), random.randint(-3, 3))
         #check if the enemy is dead
@@ -65,11 +66,14 @@ while running:
             enemy_number -= 1
     
     #enemy 死掉的时候，重新生成一个enemy
-    if enemy_number < 5:
+    if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
         enemy = Enemy.Enemy(random.randint(0, 800), random.randint(0, 600), random.randint(0, 2))
         enemies.add(enemy)
         all_sprites.add(enemy)
+        camera_group.add(enemy)
         enemy_number += 1
+    
+
     #draw the screen
     camera_group.custom_draw(player)
     pygame.display.update()
