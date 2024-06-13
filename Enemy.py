@@ -32,7 +32,7 @@ class Enemy(Robot2.Robot2):
             self.speed = 10
     
     def draw_health_bar(self, screen):
-        self.health_bar_position = [self.rect.x, 725-self.rect.y]  
+        self.health_bar_position = [self.rect.x, self.rect.y-25]  
         # Draw the background of the health bar
         pygame.draw.rect(screen, (255,0,0), (*self.health_bar_position, *self.health_bar_size))
         #Draw the health on top of the background
@@ -64,5 +64,5 @@ class Enemy(Robot2.Robot2):
             self.health -= damage
             bullet.kill()
          
-    def draw(self, screen):
-        super().draw(screen)
+    def draw(self, screen, offset):
+        super().draw(screen, offset)

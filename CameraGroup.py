@@ -22,15 +22,18 @@ class CameraGroup(pygame.sprite.Group):
     def custom_draw(self, player):
 
         self.center_target_camera(player)
+        surface = pygame.Surface((2000, 2000))
 
         #ground
         ground_offset = self.ground_rect.topleft - self.offset
-        self.display_surface.blit(self.ground_surf, ground_offset)
+        surface.blit(self.ground_surf, ground_offset)
 
         #active elements
         for sprite in sorted(self.sprites(), key= lambda sprite: sprite.rect.centery): #sort the sprites based on their y position
            offset_pos = sprite.rect.topleft - self.offset
            #self.display_surface.blit(sprite.image, offset_pos)
-           sprite.draw(self.display_surface)
+           #sprite.draw(surface, self.offset)
+           sprite.draw(self.display_surface, self.offset)
+        #self.display_surface.blit(surface, (0, 0))
            
 

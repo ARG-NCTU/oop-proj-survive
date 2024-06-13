@@ -9,6 +9,7 @@ import pymunk
 FPS = 60 #frames per second
 WHITE = (255, 255, 255)
 WIDTH, HEIGHT = 800, 800
+scrWIDTH, scrHEIGHT = 800, 800
 
 LEFT = 25
 RIGHT = 775
@@ -20,7 +21,7 @@ MIDDLEY = (TOP + BOTTOM) / 2
 
 #initialize the pygame
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((scrWIDTH, scrHEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 running = True
@@ -37,7 +38,7 @@ all_sprites.add(player)
 # Create a group for the enemies
 enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
-max_enemies = 5 #maximum number of enemies
+max_enemies = 0 #maximum number of enemies
 #first enemy
 enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2))
 enemies.add(enemy)

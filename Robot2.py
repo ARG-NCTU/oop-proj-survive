@@ -48,9 +48,10 @@ class Robot2(pygame.sprite.Sprite):
         self.body.velocity *= self.speed_resistance
         
 
-    def draw(self, screen):
-        x, y = self.body.position
-        screen.blit(self.image, (x - 25, y - 25))
+    def draw(self, screen, offset):
+        x = self.rect.x
+        y = self.rect.y
+        screen.blit(self.image, (x, y))
         pass
 
     def move(self, dx, dy):
@@ -59,6 +60,9 @@ class Robot2(pygame.sprite.Sprite):
         self.body.velocity += dx, dy
 
     def covert_xy_to_pygame(self, x, y):
+        return x, s.HEIGHT - y
+    
+    def convert_xy_to_pymunk(self, x, y):
         return x, s.HEIGHT - y
 
             

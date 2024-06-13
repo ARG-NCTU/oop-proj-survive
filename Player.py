@@ -22,7 +22,7 @@ class Player(Robot2.Robot2):
         self.health_bar_size = [50, 10]
 
     def draw_health_bar(self, screen):
-        self.health_bar_position = [self.rect.x, 725-self.rect.y]  
+        self.health_bar_position = [self.rect.x, self.rect.y-25]  
         # Draw the background of the health bar
         pygame.draw.rect(screen, (255,0,0), (*self.health_bar_position, *self.health_bar_size))
         #Draw the health on top of the background
@@ -36,9 +36,9 @@ class Player(Robot2.Robot2):
         if keys[pygame.K_RIGHT]:
             super().move(self.speed, 0)
         if keys[pygame.K_UP]:
-            super().move(0, -self.speed)
-        if keys[pygame.K_DOWN]:
             super().move(0, self.speed)
+        if keys[pygame.K_DOWN]:
+            super().move(0, -self.speed)
         self.draw_health_bar(pygame.display.get_surface())
         if self.bullets==0:
             if self.bullet_cooldown > 0:
@@ -60,8 +60,9 @@ class Player(Robot2.Robot2):
         self.bullet_speed += 2
         self.speed += 5
         self.max_speed += 10
-    def draw(self, screen):
-        super().draw(screen)
+
+    def draw(self, screen, offset):
+        super().draw(screen, offset)
 
     def shoot(self):
         #print("Shooting")
@@ -70,7 +71,7 @@ class Player(Robot2.Robot2):
         direction = pygame.math.Vector2(mouse_pos[0] - self.rect.centerx, mouse_pos[1] - self.rect.centery)
         direction = direction.normalize()
         if self.bullets > 0 or 1: #infinte bullets
-            bullet = Bullet.Bullet(self.body.position.x, self.body.position.y, self.bullet_speed, direction)
+            bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
             self.bullets -= 1
             #print("Bullets: ", direction)
             return bullet

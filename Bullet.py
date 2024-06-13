@@ -7,19 +7,19 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.Surface((15, 15))
         self.image.fill((0, 0, 0))
         self.rect = self.image.get_rect()
-        self.rect.center = self.covert_xy_to_pygame(x, y)
+        self.rect.center = (x, y)
         self.speed = speed
         self.direction = direction
 
     def update(self):
         #move the bullet in the direction it was shot
         self.rect.x += self.speed * self.direction.x
-        self.rect.y -= self.speed * self.direction.y
+        self.rect.y += self.speed * self.direction.y
         #if self.rect.x < 0 or self.rect.x > 2000 or self.rect.y < 0 or self.rect.y > 2000:
            # self.kill()
 
-    def draw(self, screen):
-        x, y = self.convert_xy_to_pymunk(self.rect.x, self.rect.y)
+    def draw(self, screen, offset):
+        x, y = self.rect.x, self.rect.y
         screen.blit(self.image, (x, y))
 
     def covert_xy_to_pygame(self, x, y):
