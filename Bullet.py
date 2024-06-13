@@ -11,12 +11,16 @@ class Bullet(pygame.sprite.Sprite):
         self.speed = speed
         self.direction = direction
 
+        self.lifetime = 5*60 #how many loops the bullet will last for
+
     def update(self):
         #move the bullet in the direction it was shot
         self.rect.x += self.speed * self.direction.x
         self.rect.y += self.speed * self.direction.y
-        #if self.rect.x < 0 or self.rect.x > 2000 or self.rect.y < 0 or self.rect.y > 2000:
-           # self.kill()
+        if self.lifetime > 0:
+            self.lifetime -= 1
+        else:
+            self.kill()
 
     def draw(self, screen, offset):
         x, y = self.rect.x, self.rect.y

@@ -40,7 +40,7 @@ enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
 max_enemies = 0 #maximum number of enemies
 #first enemy
-enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2))
+enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2), player)
 enemies.add(enemy)
 space.add(enemy.body, enemy.shape)
 all_sprites.add(enemy)
@@ -71,38 +71,14 @@ while running:
     
     #update the game
     all_sprites.update()
-    
-    for enemy in enemies:
-        # Update player position for all enemies
-        enemy.update_player_position(player.rect.x, player.rect.y)
-        # Check if the enemy collides with each other
-        # for other_enemy in enemies:
-        #     if enemy != other_enemy:
-        #         if pygame.sprite.collide_rect(enemy, other_enemy):
-        #             # Move the enemies in random directions
-        #             enemy.move(random.randint(-3, 3), random.randint(-3, 3))
-        #             other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
-        # Check if the enemy collides with the player
-        if pygame.sprite.collide_circle(enemy, player):
-            # move the enemy away from the player
-            enemy.move((enemy.rect.x - player.rect.x) * 25, (enemy.rect.y - player.rect.y) * -25)
-            player.health -= enemy.attack
-            if player.health <= 0:
-                running = False
 
-        for bullet in bullets:
-            #check if the enemy is dead or attacted
-            enemy.Attacked(player.attack, bullet)
-            if enemy.health <= 0:
-                enemy.kill()
-                enemy_number -= 1
-            #check if the bullet is out of the screen
-            if bullet.rect.x < 0 or bullet.rect.x > 800 or bullet.rect.y < 0 or bullet.rect.y > 800 :
-                bullet.kill()
+    for enemy in enemies:
+        enemy_number = enemy.check_attack(bullets, enemy_number)
+   
     
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
-        enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2))
+        enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2), player)
         enemies.add(enemy)
         space.add(enemy.body, enemy.shape)
         all_sprites.add(enemy)
@@ -111,11 +87,13 @@ while running:
     
 
     #draw the screen
-    screen.fill(WHITE)
-    camera_group.custom_draw(player)
-    player.draw_health_bar(screen)
+    screen.fill((255,0,0))
+    camera_group.temp_surface.fill((255,255,255))
+    
+    player.draw_health_bar(camera_group.temp_surface)
     for enemy in enemies:
-        enemy.draw_health_bar(screen)
+        enemy.draw_health_bar(camera_group.temp_surface)
+    camera_group.custom_draw(player)
     #player.draw(screen)
     #all_sprites.draw(screen)
     pygame.display.flip()

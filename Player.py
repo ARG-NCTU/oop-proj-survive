@@ -1,6 +1,7 @@
 import pygame
 import Robot, Bullet
 import Robot2
+import Setting as s
 
 class Player(Robot2.Robot2):
     def __init__(self, x, y):
@@ -48,6 +49,13 @@ class Player(Robot2.Robot2):
                 self.bullet_cooldown = 300
         if pygame.time.get_ticks() % 10000 == 0:
             self.level_up()
+
+
+        # mouse_pos = pygame.mouse.get_pos()
+        # direction = pygame.math.Vector2(mouse_pos[0] - self.rect.centerx, mouse_pos[1] - self.rect.centery)
+        # print("Player: ", self.rect.x, self.rect.y,"Bullets: ", direction)
+        
+       
         
     def level_up(self):
         self.level += 1
@@ -68,12 +76,12 @@ class Player(Robot2.Robot2):
         #print("Shooting")
         #shoot a bullet in the direction the mouse is pointing
         mouse_pos = pygame.mouse.get_pos()
-        direction = pygame.math.Vector2(mouse_pos[0] - self.rect.centerx, mouse_pos[1] - self.rect.centery)
+        direction = pygame.math.Vector2(mouse_pos[0] -s.MIDDLEX, mouse_pos[1]-s.MIDDLEY)
+        #print("Bullets: ", direction)
         direction = direction.normalize()
         if self.bullets > 0 or 1: #infinte bullets
             bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
             self.bullets -= 1
-            #print("Bullets: ", direction)
             return bullet
         
     def move(self, dx, dy):

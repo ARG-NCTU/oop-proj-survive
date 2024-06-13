@@ -3,8 +3,10 @@ import Robot2
 import random
 
 class Enemy(Robot2.Robot2):
-    def __init__(self, x, y, enemytype):
+    def __init__(self, x, y, enemytype, player):
         super().__init__(x, y)
+        self.player = player
+
         self.player_x = 400
         self.player_y = 300
         self.enemytype = enemytype
@@ -58,11 +60,40 @@ class Enemy(Robot2.Robot2):
         super().move(direction_x*self.speed, -direction_y*self.speed)
         self.draw_health_bar(pygame.display.get_surface())
 
+        # Update player position for all enemies
+        self.update_player_position(self.player.rect.x, self.player.rect.y)
+        # Check if the enemy collides with each other
+        # for other_enemy in enemies:
+        #     if enemy != other_enemy:
+        #         if pygame.sprite.collide_rect(enemy, other_enemy):
+        #             # Move the enemies in random directions
+        #             enemy.move(random.randint(-3, 3), random.randint(-3, 3))
+        #             other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
+        # Check if the enemy collides with the player
+        if pygame.sprite.collide_circle(self, self.player):
+            # move the enemy away from the player
+            self.move((self.rect.x - self.player.rect.x) * 25, (self.rect.y - self.player.rect.y) * -25)
+            self.player.health -= self.attack
+            if self.player.health <= 0:
+                self.running = False
+
+        
+
+   
+    def draw(self, screen, offset):
+        super().draw(screen, offset)
+        
     def Attacked(self, damage, bullet):
         #ceheck the circle if collides with the bullet
         if pygame.sprite.collide_circle(self, bullet):
             self.health -= damage
             bullet.kill()
-         
-    def draw(self, screen, offset):
-        super().draw(screen, offset)
+    
+    def check_attack(self, bullets, enemy_number):
+        for bullet in bullets:
+            #check if the enemy is dead or attacted
+            self.Attacked(self.player.attack, bullet)
+            if self.health <= 0:
+                self.kill()
+                enemy_number -= 1
+        return enemy_number
