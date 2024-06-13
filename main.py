@@ -80,7 +80,15 @@ while running:
                 if pygame.sprite.collide_rect(enemy, other_enemy):
                     # Move the enemies in random directions
                     enemy.move(random.randint(-3, 3), random.randint(-3, 3))
-                    other_enemy.move(random.randint(-3, 3), random.randint(-3, 3))       
+                    other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
+        # Check if the enemy collides with the player
+        # If the enemy collides with the player, the player loses health
+        # If the player's health is less than or equal to 0, the game ends
+        if pygame.sprite.collide_rect(enemy, player):
+            player.health -= enemy.attack
+            if player.health <= 0:
+                running = False
+                      
         for bullet in bullets:
             #check if the enemy is dead or attacted
             enemy.Attacked(player.attack, bullet)
