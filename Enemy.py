@@ -1,5 +1,6 @@
 import pygame
 import Robot
+import random
 
 class Enemy(Robot.Robot):
     def __init__(self, x, y, enemytype):
@@ -28,14 +29,22 @@ class Enemy(Robot.Robot):
     def update(self):
         super().update()
         if self.player_x != self.rect.x:
-            diection_x = (self.player_x - self.rect.x)/abs(self.player_x - self.rect.x)
+            direction_x = (self.player_x - self.rect.x)/abs(self.player_x - self.rect.x)
         else:
-            diection_x = 0
+            direction_x = 0
         if self.player_y != self.rect.y:
-            diection_y = (self.player_y - self.rect.y)/abs(self.player_y - self.rect.y)
+            direction_y = (self.player_y - self.rect.y)/abs(self.player_y - self.rect.y)
         else:
-            diection_y = 0
-        super().move(diection_x*self.speed, diection_y*self.speed)
-        
+            direction_y = 0
+        if self.player_x == self.rect.x and self.player_y == self.rect.y:
+            direction_x = random.randint(-3, 3)
+            direction_y = random.randint(-3, 3)
+        super().move(direction_x*self.speed, direction_y*self.speed)
+
+    def Attacked(self, damage, bullet):
+        if self.rect.colliderect(bullet.rect):
+            self.health -= damage
+            bullet.kill()
+         
     def draw(self, screen):
         super().draw(screen)
