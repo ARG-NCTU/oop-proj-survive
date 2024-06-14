@@ -110,7 +110,7 @@ while running:
         camera_group.add(enemy)
         enemy_number += 1
 
-    #create a supply every 10 seconds
+    #create a supply every 5 seconds
     if pygame.time.get_ticks() % 5000 <= 10:
         supply = Supply.Supply(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 2))
         supplies.add(supply)
@@ -134,6 +134,10 @@ while running:
             elif supply.supplytype == 2:
                 player.attack += 10
 
+    current_time = pygame.time.get_ticks()
+    minutes = current_time // 60000
+    seconds = (current_time % 60000) // 1000
+
     #draw the screen
     screen.fill((255,0,0))
     camera_group.temp_surface.fill((255,255,255))
@@ -151,6 +155,8 @@ while running:
     font = pygame.font.Font(None, 55) # Choose the font for the score, None means the default font
     text = font.render("Score: " + str(score), 10, (0, 0, 0)) # Create the text
     screen.blit(text, (20,20)) # Draw the text on the screen at position (20, 20)
+    time_text= font.render("Time: " + str(minutes) + ":" + str(seconds).zfill(2), 10, (0, 0, 0))
+    screen.blit(time_text, (20, 50))
     #player.draw(screen)
     #all_sprites.draw(screen)
     pygame.display.flip()
