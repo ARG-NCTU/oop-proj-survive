@@ -2,7 +2,7 @@ import random
 import pygame
 import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply, Button
 import pymunk
-import RankManager
+import RankManager, SoundsManager
 import time
 
 ### Note that the coordinates follow the pymunk coordinate system
@@ -76,6 +76,9 @@ start_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Start')
 #RankManager
 rank_manager = RankManager.RankManager()
 
+#initialize sounds effects
+sounds_manager = SoundsManager.SoundsManager()
+
 while start_page_running:
     screen.fill((255, 255, 255))  
     #Draw a circle
@@ -126,6 +129,7 @@ while running:
     if pygame.mouse.get_pressed()[0]:
         sub_bullets = player.shoot()
         if sub_bullets:
+            sounds_manager.shoot_sound.play()
             all_sprites.add(bullet for bullet in sub_bullets)
             camera_group.add(bullet for bullet in sub_bullets)
             bullets.add(bullet for bullet in sub_bullets)
@@ -145,6 +149,7 @@ while running:
     
     for enemy_bullet in enemy_bullets:
         if pygame.sprite.collide_circle(player, enemy_bullet):
+            sounds_manager.damage_sound.play()
             enemy_bullet.kill()
             player.health -= 10
     if player.health <= 0:
@@ -168,6 +173,7 @@ while running:
     for supply in supplies:
         if pygame.sprite.collide_circle(player, supply):
             supply.kill()
+            sounds_manager.supply_sound.play()
             if supply.supplytype == 0:
                 if player.health + 30 <= player.max_health:
                     player.health += 30

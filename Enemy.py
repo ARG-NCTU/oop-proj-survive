@@ -2,6 +2,7 @@ import pygame
 import Robot2
 import random
 import Bullet
+import SoundsManager
 
 class Enemy(Robot2.Robot2):
     def __init__(self, x, y, enemytype, player):
@@ -12,6 +13,9 @@ class Enemy(Robot2.Robot2):
         self.player_y = 300
         self.enemytype = enemytype
         self.health_bar_size = [50, 10]
+
+        self.sounds_manager = SoundsManager.SoundsManager()
+
         if self.enemytype == 0:
             self.health = 100
             self.max_health = 100
@@ -79,15 +83,10 @@ class Enemy(Robot2.Robot2):
 
         # Update player position for all enemies
         self.update_player_position(self.player.rect.x, self.player.rect.y)
-        # Check if the enemy collides with each other
-        # for other_enemy in enemies:
-        #     if enemy != other_enemy:
-        #         if pygame.sprite.collide_rect(enemy, other_enemy):
-        #             # Move the enemies in random directions
-        #             enemy.move(random.randint(-3, 3), random.randint(-3, 3))
-        #             other_enemy.move(random.randint(-3, 3), random.randint(-3, 3)) 
+       
         # Check if the enemy collides with the player
         if pygame.sprite.collide_circle(self, self.player):
+            self.sounds_manager.damage_sound.play()
             # move the enemy away from the player
             self.move((self.rect.x - self.player.rect.x) * 25, (self.rect.y - self.player.rect.y) * -25)
             self.player.health -= self.attack
@@ -112,6 +111,7 @@ class Enemy(Robot2.Robot2):
             self.Attacked(self.player.attack, bullet)
             if self.health <= 0:
                 self.kill()
+                self.sounds_manager.kill_ememy_sound.play()
                 self.score += 1
                 return True
         return False
