@@ -1,6 +1,6 @@
 import random
 import pygame
-import Robot, Enemy, CameraGroup, Bullet, Player, Wall
+import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply
 import pymunk
 
 ### Note that the coordinates follow the pymunk coordinate system
@@ -55,6 +55,9 @@ camera_group.add(all_sprites)
 bullets = pygame.sprite.Group()
 enemy_bullets = pygame.sprite.Group()
 
+#initialize the supplies
+supplies = pygame.sprite.Group()
+
 #initialize the walls
 wall_left = Wall.Wall([LEFT, TOP], [LEFT, BOTTOM],2)
 wall_right = Wall.Wall((RIGHT, TOP), (RIGHT, BOTTOM),2)
@@ -106,8 +109,24 @@ while running:
         all_sprites.add(enemy)
         camera_group.add(enemy)
         enemy_number += 1
-    
-    
+
+    #create a supply every 10 seconds
+    if pygame.time.get_ticks() % 10000 <= 10:
+        supply = Supply.Supply(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 2))
+        supplies.add(supply)
+        all_sprites.add(supply)
+        camera_group.add(supply)
+    for supply in supplies:
+        if pygame.sprite.collide_circle(player, supply):
+            supply.kill()
+            if supply.supplytype == 0:
+                if player.health + 30 <= player.max_health:
+                    player.health += 30
+            elif supply.supplytype == 1:
+                if player.speed + 30 <= player.max_speed:
+                    player.speed += 100
+            elif supply.supplytype == 2:
+                player.attack += 10
 
     #draw the screen
     screen.fill((255,0,0))
