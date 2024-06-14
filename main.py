@@ -2,6 +2,8 @@ import random
 import pygame
 import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply, Button
 import pymunk
+import RankManager
+import time
 
 ### Note that the coordinates follow the pymunk coordinate system
 ### where (0, 0) is at the bottom left corner of the screen
@@ -71,6 +73,9 @@ space.add(wall_bottom.body, wall_bottom.shape)
 
 start_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Start')
 
+#RankManager
+rank_manager = RankManager.RankManager()
+
 while start_page_running:
     screen.fill((255, 255, 255))  
     #Draw a circle
@@ -100,6 +105,7 @@ while start_page_running:
 #game loop 
 while running:
     
+   # print(time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime()))
     #get all the events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -234,4 +240,8 @@ while end_page_running:
         if event.type == pygame.QUIT:
             end_page_running = False
 
+# store the score
+current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
+rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
+rank_manager.show_rank()
 pygame.quit()

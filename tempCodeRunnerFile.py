@@ -1,2 +1,1 @@
-WIDTH, HEIGHT = 2000, 2000
-scrWIDTH, scrHEIGHT = 800, 800
+plt.show()
