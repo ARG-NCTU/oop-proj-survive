@@ -128,7 +128,9 @@ while running:
         if pygame.sprite.collide_circle(player, enemy_bullet):
             enemy_bullet.kill()
             player.health -= 10
-            
+    if player.health <= 0:
+        running = False 
+
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
         enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 3),player)
@@ -191,6 +193,32 @@ while running:
     clock.tick(FPS) #FPS frames per second
     space.step(1/FPS) # Step the physics simulation
 
+while end_page_running:
+    screen.fill((255, 255, 255))  
+    #Draw a circle
+    pygame.draw.circle(screen, (155, 0, 0), (25, 25), 25)
+    pygame.draw.circle(screen, (255, 0, 0), (25, 25), 15)
+    pygame.draw.circle(screen, (0, 155, 0), (100, 35), 25)
+    pygame.draw.circle(screen, (0, 255, 0), (100, 35), 15)
+    pygame.draw.circle(screen, (0, 0, 155), (35, 100), 25)
+    pygame.draw.circle(screen, (0, 0, 255), (35, 100), 15)
+    #Draw a rectangle
+    pygame.draw.rect(screen, (155, 155, 0), (650, 700, 50, 50))
+    pygame.draw.rect(screen, (255, 255, 0), (665, 715, 20, 20))
+    pygame.draw.circle(screen, (255, 200, 0), (750, 650), 25)
+    font = pygame.font.Font(None, 55)  
+    text = font.render("Game Over", True, (0, 0, 0))  
+    screen.blit(text, (300, 200))  
+    kill = font.render("Kill: " + str(score), 10, (0, 0, 0)) # Create the text
+    screen.blit(kill, (300,250)) # Draw the text on the screen at position (20, 20)
+    time_text= font.render("Time: " + str(minutes) + ":" + str(seconds).zfill(2), 10, (0, 0, 0))
+    screen.blit(time_text, (300, 300))
+    final_score = font.render("Final Score: " + str(score * (minutes*60 + seconds)), 10, (0, 0, 0))
+    screen.blit(final_score, (300, 350))
+    pygame.display.flip()  # 
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            end_page_running = False
 
 pygame.quit()
