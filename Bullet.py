@@ -22,7 +22,7 @@ class Bullet(pygame.sprite.Sprite):
         else:
             self.kill()
 
-    def draw(self, screen, offset):
+    def draw(self, screen):
         x, y = self.rect.x, self.rect.y
         screen.blit(self.image, (x, y))
 

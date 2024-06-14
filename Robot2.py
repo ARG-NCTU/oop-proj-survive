@@ -48,7 +48,7 @@ class Robot2(pygame.sprite.Sprite):
         self.body.velocity *= self.speed_resistance
         
 
-    def draw(self, screen, offset):
+    def draw(self, screen):
         x = self.rect.x
         y = self.rect.y
         screen.blit(self.image, (x, y))

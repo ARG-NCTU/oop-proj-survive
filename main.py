@@ -106,11 +106,10 @@ while running:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN: #shoot a bullet
             if event.button == 1:
-                bullet = player.shoot()
-                if bullet:
-                    all_sprites.add(bullet)
-                    camera_group.add(bullet)
-                    bullets.add(bullet)
+                sub_bullets = player.shoot()
+                all_sprites.add(bullet for bullet in sub_bullets)
+                camera_group.add(bullet for bullet in sub_bullets)
+                bullets.add(bullet for bullet in sub_bullets)
 
     #update the game
     all_sprites.update()

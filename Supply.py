@@ -20,7 +20,7 @@ class Supply(pygame.sprite.Sprite):
             pygame.draw.polygon(self.image, (50, 50, 225), [(25, 5), (30, 20), (45, 20), (35, 30), (40, 45), (25, 35), (10, 45), (15, 30), (5, 20), (20, 20)])
     def update(self):
         pass
-    def draw(self, screen, offset):
+    def draw(self, screen):
         x = self.rect.x
         y = self.rect.y
         screen.blit(self.image, (x, y))

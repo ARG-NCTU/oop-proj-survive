@@ -97,8 +97,8 @@ class Enemy(Robot2.Robot2):
         
 
    
-    def draw(self, screen, offset):
-        super().draw(screen, offset)
+    def draw(self, screen):
+        super().draw(screen)
         
     def Attacked(self, damage, bullet):
         #ceheck the circle if collides with the bullet
