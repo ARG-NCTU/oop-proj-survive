@@ -1,6 +1,7 @@
 import pygame
 import Robot2
 import random
+import Bullet
 
 class Enemy(Robot2.Robot2):
     def __init__(self, x, y, enemytype, player):
@@ -25,6 +26,13 @@ class Enemy(Robot2.Robot2):
             pygame.draw.circle(self.image, (0, 155, 0), (25, 25), 25)
             pygame.draw.circle(self.image, (0, 255, 0), (25, 25), 15)
             self.speed = 30
+        elif self.enemytype == 3:  #固定式砲台
+            self.health = 200
+            self.max_health = 200
+            self.attack = 10
+            pygame.draw.rect(self.image, (155, 155, 0), (0, 0, 50, 50))
+            pygame.draw.rect(self.image, (255, 255, 0), (15, 15, 20, 20))
+            self.speed = 0
         else:  
             self.health = 150
             self.max_health = 150
@@ -32,7 +40,7 @@ class Enemy(Robot2.Robot2):
             pygame.draw.circle(self.image, (0, 0, 155), (25, 25), 25)
             pygame.draw.circle(self.image, (0, 0, 255), (25, 25), 15)
             self.speed = 10
-    
+        
     def draw_health_bar(self, screen):
         self.health_bar_position = [self.rect.x, self.rect.y-25]  
         # Draw the background of the health bar
@@ -43,6 +51,14 @@ class Enemy(Robot2.Robot2):
     def update_player_position(self, player_x, player_y):
         self.player_x = player_x
         self.player_y = player_y
+    
+    def shoot(self):
+        direction = pygame.math.Vector2(self.player_x-self.rect.x,self.player_y-self.rect.y)
+        #print("Bullets: ", direction)
+        direction = direction.normalize()
+        bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, 7, direction)
+        bullet.image.fill((100, 100, 0))
+        return bullet
     
     def update(self):
         super().update()
@@ -57,6 +73,7 @@ class Enemy(Robot2.Robot2):
         if self.player_x == self.rect.x and self.player_y == self.rect.y:
             direction_x = random.randint(-3, 3)
             direction_y = random.randint(-3, 3)
+
         super().move(direction_x*self.speed, -direction_y*self.speed)
         self.draw_health_bar(pygame.display.get_surface())
 
