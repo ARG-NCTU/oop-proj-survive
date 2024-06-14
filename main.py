@@ -1,6 +1,6 @@
 import random
 import pygame
-import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply
+import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply, Button
 import pymunk
 
 ### Note that the coordinates follow the pymunk coordinate system
@@ -25,7 +25,8 @@ screen = pygame.display.set_mode((scrWIDTH, scrHEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 running = True
-
+start_page_running = True
+end_page_running = True
 #initialize the pymunk
 space = pymunk.Space()
 
@@ -67,6 +68,33 @@ space.add(wall_left.body, wall_left.shape)
 space.add(wall_right.body, wall_right.shape)
 space.add(wall_top.body, wall_top.shape)
 space.add(wall_bottom.body, wall_bottom.shape)
+
+start_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Start')
+
+while start_page_running:
+    screen.fill((255, 255, 255))  
+    #Draw a circle
+    start_button.draw(screen)
+    pygame.draw.circle(screen, (155, 0, 0), (25, 25), 25)
+    pygame.draw.circle(screen, (255, 0, 0), (25, 25), 15)
+    pygame.draw.circle(screen, (0, 155, 0), (100, 35), 25)
+    pygame.draw.circle(screen, (0, 255, 0), (100, 35), 15)
+    pygame.draw.circle(screen, (0, 0, 155), (35, 100), 25)
+    pygame.draw.circle(screen, (0, 0, 255), (35, 100), 15)
+    #Draw a rectangle
+    pygame.draw.rect(screen, (155, 155, 0), (650, 700, 50, 50))
+    pygame.draw.rect(screen, (255, 255, 0), (665, 715, 20, 20))
+    pygame.draw.circle(screen, (255, 200, 0), (750, 650), 25)
+    font = pygame.font.Font(None, 55)  
+    text = font.render("My Game", True, (0, 0, 0))  
+    screen.blit(text, (300, 200))  
+    pygame.display.flip()  # 
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if start_button.is_clicked(pygame.mouse.get_pos()):
+                start_page_running = False
+
 
 #game loop 
 while running:
@@ -162,5 +190,7 @@ while running:
     pygame.display.flip()
     clock.tick(FPS) #FPS frames per second
     space.step(1/FPS) # Step the physics simulation
+
+
 
 pygame.quit()
