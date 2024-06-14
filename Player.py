@@ -11,9 +11,9 @@ class Player(Robot2.Robot2):
         #Attributes
         self.speed = 50
         self.max_speed = 500
-        self.health = 100
+        self.health = 200
         self.level = 1
-        self.max_health = 100 
+        self.max_health = 200 
 
         self.attack = 30
         self.max_bullets = 10
