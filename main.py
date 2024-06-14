@@ -40,7 +40,7 @@ enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
 max_enemies = 5 #maximum number of enemies
 #first enemy
-enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2), player)
+enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 2),player)
 enemies.add(enemy)
 space.add(enemy.body, enemy.shape)
 all_sprites.add(enemy)
@@ -51,6 +51,7 @@ camera_group.add(all_sprites)
 
 # Create a group for bullets
 bullets = pygame.sprite.Group()
+enemy_bullets = pygame.sprite.Group()
 
 #initialize the walls
 wall_left = Wall.Wall([LEFT, TOP], [LEFT, BOTTOM],2)
@@ -77,17 +78,26 @@ while running:
                     camera_group.add(bullet)
                     bullets.add(bullet)
 
-    
     #update the game
     all_sprites.update()
 
     for enemy in enemies:
         enemy_number = enemy.check_attack(bullets, enemy_number)
-   
+        if enemy.enemytype == 3 and pygame.time.get_ticks() % 1000 < 10:
+            enemy_bullet = enemy.shoot()
+            if enemy_bullet:
+                all_sprites.add(enemy_bullet)
+                camera_group.add(enemy_bullet)
+                enemy_bullets.add(enemy_bullet)
     
+    for enemy_bullet in enemy_bullets:
+        if pygame.sprite.collide_circle(player, enemy_bullet):
+            enemy_bullet.kill()
+            player.health -= 10
+            
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
-        enemy = Enemy.Enemy(random.choice((random.randint(0, 200), random.randint(600, 800))), random.choice((random.randint(0, 200), random.randint(600, 800))), random.randint(0, 2), player)
+        enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 3),player)
         enemies.add(enemy)
         space.add(enemy.body, enemy.shape)
         all_sprites.add(enemy)
