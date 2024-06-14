@@ -35,6 +35,8 @@ player = Player.Player(400, 1600)
 space.add(player.body, player.shape)
 all_sprites.add(player)
 
+score = 0
+
 # Create a group for the enemies
 enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
@@ -83,7 +85,8 @@ while running:
 
     for enemy in enemies:
         enemy_number = enemy.check_attack(bullets, enemy_number)
-        if enemy.enemytype == 3 and pygame.time.get_ticks() % 1000 < 10:
+        score += enemy.score
+        if enemy.enemytype == 3 and pygame.time.get_ticks() % 1000 < 5:
             enemy_bullet = enemy.shoot()
             if enemy_bullet:
                 all_sprites.add(enemy_bullet)
@@ -104,6 +107,7 @@ while running:
         camera_group.add(enemy)
         enemy_number += 1
     
+    
 
     #draw the screen
     screen.fill((255,0,0))
@@ -118,6 +122,10 @@ while running:
     wall_top.draw(camera_group.temp_surface)
     wall_bottom.draw(camera_group.temp_surface)
     camera_group.custom_draw(player)
+
+    font = pygame.font.Font(None, 55) # Choose the font for the score, None means the default font
+    text = font.render("Score: " + str(score), 10, (0, 0, 0)) # Create the text
+    screen.blit(text, (20,20)) # Draw the text on the screen at position (20, 20)
     #player.draw(screen)
     #all_sprites.draw(screen)
     pygame.display.flip()

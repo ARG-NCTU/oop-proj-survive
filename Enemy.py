@@ -7,7 +7,7 @@ class Enemy(Robot2.Robot2):
     def __init__(self, x, y, enemytype, player):
         super().__init__(x, y)
         self.player = player
-
+        self.score = 0 #score for the player
         self.player_x = 400
         self.player_y = 300
         self.enemytype = enemytype
@@ -22,13 +22,13 @@ class Enemy(Robot2.Robot2):
         elif self.enemytype == 1:
             self.health = 40
             self.max_health = 40
-            self.attack = 10
+            self.attack = 7
             pygame.draw.circle(self.image, (0, 155, 0), (25, 25), 25)
             pygame.draw.circle(self.image, (0, 255, 0), (25, 25), 15)
-            self.speed = 30
+            self.speed = 40
         elif self.enemytype == 3:  #固定式砲台
-            self.health = 200
-            self.max_health = 200
+            self.health = 100
+            self.max_health = 100
             self.attack = 10
             pygame.draw.rect(self.image, (155, 155, 0), (0, 0, 50, 50))
             pygame.draw.rect(self.image, (255, 255, 0), (15, 15, 20, 20))
@@ -113,4 +113,5 @@ class Enemy(Robot2.Robot2):
             if self.health <= 0:
                 self.kill()
                 enemy_number -= 1
+                self.score += 1
         return enemy_number
