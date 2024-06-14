@@ -111,7 +111,7 @@ while running:
         enemy_number += 1
 
     #create a supply every 10 seconds
-    if pygame.time.get_ticks() % 10000 <= 10:
+    if pygame.time.get_ticks() % 5000 <= 10:
         supply = Supply.Supply(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 2))
         supplies.add(supply)
         all_sprites.add(supply)
@@ -122,9 +122,15 @@ while running:
             if supply.supplytype == 0:
                 if player.health + 30 <= player.max_health:
                     player.health += 30
+                elif player.health < player.max_health:
+                    add_health = player.max_health - player.health
+                    player.health += add_health
             elif supply.supplytype == 1:
-                if player.speed + 30 <= player.max_speed:
-                    player.speed += 100
+                if player.speed +30 <= player.max_speed:
+                    player.speed += 30
+                elif player.speed < player.max_speed:
+                    add_spped = player.max_speed - player.speed
+                    player.speed += add_spped
             elif supply.supplytype == 2:
                 player.attack += 10
 
