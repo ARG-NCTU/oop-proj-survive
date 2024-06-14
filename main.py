@@ -104,18 +104,31 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN: #shoot a bullet
+        #hold the mouse button to shoot
+        elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                sub_bullets = player.shoot()
-                all_sprites.add(bullet for bullet in sub_bullets)
-                camera_group.add(bullet for bullet in sub_bullets)
-                bullets.add(bullet for bullet in sub_bullets)
+                pass
+                # sub_bullets = player.shoot()
+                # all_sprites.add(bullet for bullet in sub_bullets)
+                # camera_group.add(bullet for bullet in sub_bullets)
+                # bullets.add(bullet for bullet in sub_bullets)
 
     #update the game
     all_sprites.update()
 
+    #if mouse is pressed, shoot
+    if pygame.mouse.get_pressed()[0]:
+        sub_bullets = player.shoot()
+        if sub_bullets:
+            all_sprites.add(bullet for bullet in sub_bullets)
+            camera_group.add(bullet for bullet in sub_bullets)
+            bullets.add(bullet for bullet in sub_bullets)
+
     for enemy in enemies:
-        enemy_number = enemy.check_attack(bullets, enemy_number)
+        if enemy.check_attack(bullets): # The enemy is dead
+            enemy_number -=1 
+            space.remove(enemy.body, enemy.shape)
+       
         score += enemy.score
         if enemy.enemytype == 3 and pygame.time.get_ticks() % 1000 < 5:
             enemy_bullet = enemy.shoot()

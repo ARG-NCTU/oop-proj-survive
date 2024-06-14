@@ -106,12 +106,12 @@ class Enemy(Robot2.Robot2):
             self.health -= damage
             bullet.kill()
     
-    def check_attack(self, bullets, enemy_number):
+    def check_attack(self, bullets): #return if the enemy is dead
         for bullet in bullets:
             #check if the enemy is dead or attacted
             self.Attacked(self.player.attack, bullet)
             if self.health <= 0:
                 self.kill()
-                enemy_number -= 1
                 self.score += 1
-        return enemy_number
+                return True
+        return False

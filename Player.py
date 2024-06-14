@@ -22,7 +22,9 @@ class Player(Robot2.Robot2):
         self.max_bullets = 10
         self.bullets = 10
         self.bullet_speed = 10
-        self.bullet_cooldown = 300
+        self.bullet_cooldown = 5
+        self.bullet_cooldown_max = 5
+        self.ready_to_shoot = True
         self.health_bar_size = [50, 10]
 
         #barrel of the gun
@@ -60,6 +62,14 @@ class Player(Robot2.Robot2):
                 self.bullet_cooldown = 300
         if pygame.time.get_ticks() % 10000 == 0:
             self.level_up()
+
+        # initial ready to shoot
+        if self.ready_to_shoot == False:
+            if self.bullet_cooldown > 0:
+                self.bullet_cooldown -= 1
+            else:
+                self.ready_to_shoot = True
+                self.bullet_cooldown = self.bullet_cooldown_max
 
 
         # mouse_pos = pygame.mouse.get_pos()
@@ -104,22 +114,19 @@ class Player(Robot2.Robot2):
         self.max_speed += 10
 
     def shoot(self):
-        #shoot a bullet in the direction the mouse is pointing
-        sub_bullets = []
-        direction = self.get_mouse_direction()
-        bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
-        sub_bullets.append(bullet)
-        if 1: #for testing
-            for i in [90, 180, 270]:
-                direction = self.get_mouse_direction().rotate(i)
-                bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
-                sub_bullets.append(bullet)
-        
-        return sub_bullets
-        # if self.bullets > 0 or 1: #infinte bullets
-        #     bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
-        #     self.bullets -= 1
-        #     return bullet
+        if self.ready_to_shoot:
+            self.ready_to_shoot = False
+            #shoot a bullet in the direction the mouse is pointing
+            sub_bullets = []
+            direction = self.get_mouse_direction()
+            bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+            sub_bullets.append(bullet)
+            if 1: #for testing
+                for i in [90, 180, 270]:
+                    direction = self.get_mouse_direction().rotate(i)
+                    bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+                    sub_bullets.append(bullet)
+            return sub_bullets
         
     def move(self, dx, dy):
         return super().move(dx, dy)
