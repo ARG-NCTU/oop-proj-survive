@@ -93,6 +93,7 @@ while start_page_running:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if start_button.is_clicked(pygame.mouse.get_pos()):
+                start_time = pygame.time.get_ticks()
                 start_page_running = False
 
 
@@ -164,7 +165,7 @@ while running:
             elif supply.supplytype == 2:
                 player.attack += 10
 
-    current_time = pygame.time.get_ticks()
+    current_time = pygame.time.get_ticks()-start_time
     minutes = current_time // 60000
     seconds = (current_time % 60000) // 1000
 
