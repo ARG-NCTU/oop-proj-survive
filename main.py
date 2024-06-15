@@ -330,10 +330,10 @@ def reset():
     enemy_number = 0 #number of enemies
     max_enemies = 5 #maximum number of enemies
 #main loop
+start_game()
 while 1:
     player.reset()
     reset()
-    start_game()
     game_playing()
     end_game()
     if is_end_game==True:
