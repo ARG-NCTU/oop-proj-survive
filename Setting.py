@@ -20,3 +20,10 @@ button_text_color = (255,255,255)
 button_text_color_hover = (205,205,205)
 button_text_color_click = (155,155,155)
 button_text_color_disabled = (100,100,100)
+
+#start button
+start_button_color = (255,0,0)
+start_button_color_hover = (200,0,0)
+start_button_color_click = (255,0,0)
+
+start_button_text_color = (255,255,255)

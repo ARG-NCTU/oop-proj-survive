@@ -14,7 +14,7 @@ import Setting as s
 #initialize the pygame
 pygame.init()
 screen = pygame.display.set_mode((s.scrWIDTH, s.scrHEIGHT))
-pygame.display.set_caption("My Game")
+pygame.display.set_caption("How Long Can You Survive?")
 clock = pygame.time.Clock()
 minutes = 0
 seconds = 0
@@ -65,10 +65,13 @@ space.add(wall_bottom.body, wall_bottom.shape)
 
 start_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Start')
 restart_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Restart')
+see_rank_button = Button.Button(300, 580, 200, 50, (255, 0, 0), 'See Rank')
 is_end_game = False
 
 #RankManager
 rank_manager = RankManager.RankManager()
+rank_manager.draw_test(screen)
+screen.fill((255, 255, 255))
 
 #initialize sounds effects
 sounds_manager = SoundsManager.SoundsManager()
@@ -92,13 +95,14 @@ def start_game():
         pygame.draw.rect(screen, (255, 255, 0), (665, 715, 20, 20))
         pygame.draw.circle(screen, (255, 200, 0), (750, 650), 25)
         font = pygame.font.Font(None, 55)  
-        text = font.render("My Game", True, (0, 0, 0))  
+        text = font.render("How Long Can You Survive?", True, (0, 0, 0))  
         screen.blit(text, (300, 200))  
         pygame.display.flip()  # 
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.is_clicked(pygame.mouse.get_pos()):
+                    sounds_manager.button_sound.play()
                     start_page_running = False
 
 
@@ -165,15 +169,8 @@ def game_playing():
                 enemy_bullet.kill()
                 player.health -= 10
         if player.health <= 0:
-            running = False 
-            for enemy in enemies:
-                enemy.kill()
-            for bullet in bullets:
-                bullet.kill()
-            for enemy_bullet in enemy_bullets:
-                enemy_bullet.kill()
-            for supply in supplies:
-                supply.kill()
+            player_die()
+            
 
         if pygame.time.get_ticks() % 2000 <= 10:
             max_enemies += 1
@@ -304,6 +301,7 @@ def end_game():
         final_score = font.render("Final Score: " + str(score * (minutes*60 + seconds)), 10, (0, 0, 0))
         screen.blit(final_score, (300, 350))
         restart_button.draw(screen)
+        see_rank_button.draw(screen)
         pygame.display.flip()  # 
 
         for event in pygame.event.get():
@@ -313,13 +311,15 @@ def end_game():
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if restart_button.is_clicked(pygame.mouse.get_pos()):
-                    current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
-                    rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
+                    sounds_manager.button_sound.play()
                     end_page_running = False
                     return
+                if see_rank_button.is_clicked(pygame.mouse.get_pos()):
+                    sounds_manager.button_sound.play()
+                    rank_manager.show_rank()
 
 def reset():
-    global minutes, seconds, running, start_page_running, end_page_running, score, score_change, enemy_number, max_enemies
+    global minutes, seconds, running, start_page_running, end_page_running, score, score_change, enemy_number, max_enemies, screen
     minutes = 0
     seconds = 0
     running = True
@@ -329,6 +329,24 @@ def reset():
     score_change = False
     enemy_number = 0 #number of enemies
     max_enemies = 5 #maximum number of enemies
+    
+
+def player_die():
+    global running
+    running = False
+    sounds_manager.gameover_sound.play()
+    current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
+    rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
+    for enemy in enemies:
+        enemy.kill()
+    for bullet in bullets:
+        bullet.kill()
+    for enemy_bullet in enemy_bullets:
+        enemy_bullet.kill()
+    for supply in supplies:
+        supply.kill()
+
+
 #main loop
 
 while 1:
@@ -341,7 +359,7 @@ while 1:
         break
 
 # store the score
-current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
-rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
-rank_manager.show_rank()
+# current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
+# rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
+# rank_manager.show_rank()
 pygame.quit()

@@ -187,7 +187,10 @@ class Player(Robot2.Robot2):
     def get_mouse_direction(self):
         mouse_pos = pygame.mouse.get_pos()
         direction = pygame.math.Vector2(mouse_pos[0] - s.scrWIDTH/2 , mouse_pos[1] - s.scrHEIGHT/2)
-        direction = direction.normalize()
+        try:
+            direction = direction.normalize()
+        except:
+            direction = pygame.math.Vector2(0,0)
         return direction
     
     def add_max_health(self):

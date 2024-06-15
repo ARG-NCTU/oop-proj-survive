@@ -9,3 +9,6 @@ class SoundsManager:
         self.kill_ememy_sound = pygame.mixer.Sound("sounds/damaged5.mp3")
         self.level_up_sound = pygame.mixer.Sound("sounds/levelup1.mp3")
         self.superlevel_up_sound = pygame.mixer.Sound("sounds/levelup2.mp3")
+        self.button_sound = pygame.mixer.Sound("sounds/button.mp3")
+        self.talent_sound = pygame.mixer.Sound("sounds/talentpoint.mp3")
+        self.gameover_sound = pygame.mixer.Sound("sounds/gameover.mp3")
