@@ -2,7 +2,7 @@ import random
 import pygame
 import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply, Button
 import pymunk
-import RankManager, SoundsManager
+import RankManager, SoundsManager, StatusWindow
 import time
 import Setting as s
 
@@ -71,6 +71,9 @@ rank_manager = RankManager.RankManager()
 #initialize sounds effects
 sounds_manager = SoundsManager.SoundsManager()
 
+#Status window
+status_window = StatusWindow.StatusWindow(player)
+
 while start_page_running:
     screen.fill((255, 255, 255))  
     #Draw a circle
@@ -101,7 +104,9 @@ while start_page_running:
 while running:
     
    # print(time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime()))
+    #----------------------------------------------
     #get all the events
+    #----------------------------------------------
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -114,8 +119,11 @@ while running:
                 # camera_group.add(bullet for bullet in sub_bullets)
                 # bullets.add(bullet for bullet in sub_bullets)
 
+    #----------------------------------------------
     #update the game
+    #----------------------------------------------
     all_sprites.update()
+    status_window.update()
 
     #if mouse is pressed, shoot
     if pygame.mouse.get_pressed()[0]:
@@ -219,7 +227,9 @@ while running:
     minutes = current_time // 60000
     seconds = (current_time % 60000) // 1000
 
-    #draw the screen
+    #----------------------------------------------
+    # Draw the screen
+    #----------------------------------------------
     screen.fill((255,0,0))
     camera_group.temp_surface.fill((255,255,255))
     camera_group.draw_ground()
@@ -233,12 +243,15 @@ while running:
         enemy.draw_health_bar(camera_group.temp_surface)
 
 
-    
+    # Draw the walls
     wall_left.draw(camera_group.temp_surface,"left")
     wall_right.draw(camera_group.temp_surface, "right")
     wall_top.draw(camera_group.temp_surface,"top")
     wall_bottom.draw(camera_group.temp_surface,"bottom")
+    # Draw the sprites
     camera_group.custom_draw(player)
+    # Draw the status window
+    status_window.draw(screen)
 
     font = pygame.font.Font(None, 55) # Choose the font for the score, None means the default font
     text = font.render("Score: " + str(score), 10, (0, 0, 0)) # Create the text

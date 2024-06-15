@@ -1,7 +1,7 @@
 FPS = 60 #frames per second
 WHITE = (255, 255, 255)
 WIDTH, HEIGHT = 2000, 2000
-scrWIDTH, scrHEIGHT = 800, 800
+scrWIDTH, scrHEIGHT = 800, 700
 
 LEFT = 25
 RIGHT = WIDTH-LEFT

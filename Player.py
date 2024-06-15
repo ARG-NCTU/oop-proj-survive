@@ -18,6 +18,7 @@ class Player(Robot2.Robot2):
         self.health = 200
         self.level = 1
         self.max_health = 200 
+        self.gun_level = 1
 
         self.attack = 30
         self.max_bullets = 10
@@ -164,3 +165,16 @@ class Player(Robot2.Robot2):
         direction = pygame.math.Vector2(mouse_pos[0] - s.scrWIDTH/2 , mouse_pos[1] - s.scrHEIGHT/2)
         direction = direction.normalize()
         return direction
+    
+    def add_max_health(self):
+        self.max_health += 20
+    
+    def add_attack(self):
+        self.attack += 3
+
+    def add_speed(self):
+        self.speed += 2
+        self.max_speed += 2
+
+    def add_gun_level(self):
+        self.gun_level += 1
