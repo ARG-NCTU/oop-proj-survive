@@ -4,6 +4,7 @@ import Robot2
 import Setting as s
 import math
 import pymunk
+import SoundsManager
 
 class Player(Robot2.Robot2):
     def __init__(self, x, y):
@@ -11,13 +12,18 @@ class Player(Robot2.Robot2):
         #add frame to the circle
         
         # self.image.fill((0, 255, 255))
+
+        self.sounds_manager = SoundsManager.SoundsManager()
         
         #Attributes
         self.speed = 50
         self.max_speed = 500
         self.health = 200
         self.level = 1
+        self.max_level = 40
         self.max_health = 200 
+        self.gun_level = 1
+        self.talent_point = 0
 
         self.attack = 30
         self.max_bullets = 10
@@ -117,24 +123,33 @@ class Player(Robot2.Robot2):
         screen.blit(new_barrel, (self.rect.centerx - rect.width/2, self.rect.centery - rect.height/2) + offset)
         
     def level_up(self):
-        if self.level < 20: #max level=20
-            self.level += 1
-            if self.level % 5 == 0:
-                self.max_health += 10
-                if self.health + 10 <= self.max_health:
-                    self.health += 10
-            elif self.level % 5 == 1:
-                self.attack += 3
-            elif self.level % 5 == 2:
-                self.bullets += 3
-                self.max_bullets += 3
-            elif self.level % 5 == 3:
-                self.bullet_speed += 1
-                self.speed += 2
-                self.max_speed += 2
-            else:
-                if self.bullet_reload_max >= 1:
-                    self.bullet_reload_max -= 1
+
+        if self.level >= self.max_level: return
+        # if self.level < 20: #max level=20
+        #     self.level += 1
+        #     if self.level % 5 == 0:
+        #         self.max_health += 10
+        #         if self.health + 10 <= self.max_health:
+        #             self.health += 10
+        #     elif self.level % 5 == 1:
+        #         self.attack += 3
+        #     elif self.level % 5 == 2:
+        #         self.bullets += 3
+        #         self.max_bullets += 3
+        #     elif self.level % 5 == 3:
+        #         self.bullet_speed += 1
+        #         self.speed += 2
+        #         self.max_speed += 2
+        #     else:
+        #         if self.bullet_reload_max >= 1:
+        #             self.bullet_reload_max -= 1
+
+        self.level += 1
+        self.talent_point += 1
+        if self.level % 5 == 0:
+            self.sounds_manager.superlevel_up_sound.play()
+        else:
+            self.sounds_manager.level_up_sound.play()
 
     def shoot(self):
         if self.ready_to_shoot and self.bullets > 0:
@@ -164,19 +179,16 @@ class Player(Robot2.Robot2):
         direction = pygame.math.Vector2(mouse_pos[0] - s.scrWIDTH/2 , mouse_pos[1] - s.scrHEIGHT/2)
         direction = direction.normalize()
         return direction
-    def reset(self):
-        self.speed = 50
-        self.max_speed = 500
-        self.health = 200
-        self.level = 1
-        self.max_health = 200 
+    
+    def add_max_health(self):
+        self.max_health += 20
+    
+    def add_attack(self):
+        self.attack += 3
 
-        self.attack = 30
-        self.max_bullets = 10
-        self.bullets = 10
-        self.bullet_speed = 10
-        self.bullet_reload = 30
-        self.bullet_reload_max = 35
-        self.bullet_cooldown = 5
-        self.bullet_cooldown_max = 7
-        self.ready_to_shoot = True
+    def add_speed(self):
+        self.speed += 2
+        self.max_speed += 2
+
+    def add_gun_level(self):
+        self.gun_level += 1
