@@ -70,6 +70,8 @@ is_end_game = False
 
 #RankManager
 rank_manager = RankManager.RankManager()
+rank_manager.draw_test(screen)
+screen.fill((255, 255, 255))
 
 #initialize sounds effects
 sounds_manager = SoundsManager.SoundsManager()
