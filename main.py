@@ -172,6 +172,8 @@ def game_playing():
                 bullet.kill()
             for enemy_bullet in enemy_bullets:
                 enemy_bullet.kill()
+            for supply in supplies:
+                supply.kill()
 
         if pygame.time.get_ticks() % 2000 <= 10:
             max_enemies += 1
@@ -209,8 +211,8 @@ def game_playing():
             camera_group.add(enemy)
             has_boss = True
 
-        #create a supply every 5 seconds
-        if pygame.time.get_ticks() % 5000 <= 10:
+        #create a supply every 15 seconds
+        if pygame.time.get_ticks() % 15000 < 60:
             supply = Supply.Supply(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 2))
             supplies.add(supply)
             all_sprites.add(supply)
@@ -311,6 +313,8 @@ def end_game():
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if restart_button.is_clicked(pygame.mouse.get_pos()):
+                    current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
+                    rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
                     end_page_running = False
                     return
 
