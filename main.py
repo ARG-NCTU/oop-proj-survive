@@ -202,7 +202,7 @@ while running:
     camera_group.temp_surface.fill((255,255,255))
     
     if score % 5 == 0 and score != 0 and score_change:
-        player.level += 1
+        player.level_up()
         score_change = False
 
     player.draw_health_bar(camera_group.temp_surface)
@@ -220,6 +220,8 @@ while running:
     screen.blit(text, (20,20)) # Draw the text on the screen at position (20, 20)
     time_text= font.render("Time: " + str(minutes) + ":" + str(seconds).zfill(2), 10, (0, 0, 0))
     screen.blit(time_text, (20, 50))
+    level_text = font.render("Level: " + str(player.level), 10, (0, 0, 0))
+    screen.blit(level_text, (20, 80))
     #player.draw(screen)
     #all_sprites.draw(screen)
     pygame.display.flip()

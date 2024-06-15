@@ -22,8 +22,10 @@ class Player(Robot2.Robot2):
         self.max_bullets = 10
         self.bullets = 10
         self.bullet_speed = 10
+        self.bullet_reload = 30
+        self.bullet_reload_max = 35
         self.bullet_cooldown = 5
-        self.bullet_cooldown_max = 5
+        self.bullet_cooldown_max = 7
         self.ready_to_shoot = True
         self.health_bar_size = [50, 10]
 
@@ -55,11 +57,11 @@ class Player(Robot2.Robot2):
             super().move(0, -self.speed)
         self.draw_health_bar(pygame.display.get_surface())
         if self.bullets==0:
-            if self.bullet_cooldown > 0:
-                self.bullet_cooldown -= 1
+            if self.bullet_reload > 0:
+                self.bullet_reload -= 1
             else:
-                self.bullets = 10
-                self.bullet_cooldown = 300
+                self.bullets = self.max_bullets
+                self.bullet_reload = self.bullet_reload_max
 
         # initial ready to shoot
         if self.ready_to_shoot == False:
@@ -101,20 +103,29 @@ class Player(Robot2.Robot2):
         screen.blit(new_barrel, (self.rect.centerx - rect.width/2, self.rect.centery - rect.height/2) + offset)
         
     def level_up(self):
-        self.level += 1
-        self.max_health += 10
-        if self.health + 10 <= self.max_health:
-            self.health += 10
-        self.attack += 5
-        self.bullets += 5
-        self.max_bullets += 5
-        self.bullet_speed += 2
-        self.speed += 5
-        self.max_speed += 10
+        if self.level < 20:
+            self.level += 1
+            if self.level % 5 == 0:
+                self.max_health += 10
+                if self.health + 10 <= self.max_health:
+                    self.health += 10
+            elif self.level % 5 == 1:
+                self.attack += 3
+            elif self.level % 5 == 2:
+                self.bullets += 3
+                self.max_bullets += 3
+            elif self.level % 5 == 3:
+                self.bullet_speed += 1
+                self.speed += 2
+                self.max_speed += 2
+            else:
+                if self.bullet_reload_max >= 1:
+                    self.bullet_reload_max -= 1
 
     def shoot(self):
-        if self.ready_to_shoot:
+        if self.ready_to_shoot and self.bullets > 0:
             self.ready_to_shoot = False
+            self.bullets -= 1  
             #shoot a bullet in the direction the mouse is pointing
             sub_bullets = []
             direction = self.get_mouse_direction()
