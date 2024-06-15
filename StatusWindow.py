@@ -29,7 +29,7 @@ class StatusWindow(pygame.sprite.Sprite):
         self.button_amount = len(self.text_lst) -1
         self.buttons = []
         for i in range(self.button_amount):
-            button = Button2.Button2(113, 11 + 30 * i, 15, 15, "+", None, self.button_color, self.button_color_hover, self.button_text_color, self.action_lst[i])
+            button = Button2.Button2(113, 11 + 30 * i, 15, 15, None, None, self.button_color, self.button_color_hover, self.button_text_color, self.action_lst[i])
             self.buttons.append(button)
             
 
@@ -53,6 +53,7 @@ class StatusWindow(pygame.sprite.Sprite):
             # button = self.create_plus_button(self.image, value_lst[i], 113, 11 + 30 * i)
 
         for button in self.buttons:
+            button.is_button_abled = self.player.talent_point > 0
             button.draw(self.image, self.rect.topleft)
         
 

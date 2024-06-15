@@ -20,10 +20,10 @@ class Player(Robot2.Robot2):
         self.max_speed = 500
         self.health = 200
         self.level = 1
-        self.max_level = 40
+        self.max_level = 30
         self.max_health = 200 
         self.gun_level = 1
-        self.talent_point = 0
+        self.talent_point = 2
 
         self.attack = 30
         self.max_bullets = 10
@@ -34,6 +34,16 @@ class Player(Robot2.Robot2):
         self.bullet_cooldown = 5
         self.bullet_cooldown_max = 7
         self.ready_to_shoot = True
+        self.barrel_amout = [1,2,4,5,6,7,8]
+        self.superlevel = 1
+
+        self.gunlevel_to_bullet = {
+            "bullet_speed":[1,0,0,1,0,0],
+            "bullet_reload":[0,-1,0,-1,0,-1],
+            "bullet_cooldown":[-1,0,-1,0,-1,0],
+            "max_bullets":[1,1,1,1,1,1],
+        }
+
         self.health_bar_size = [50, 10]
         self.image = pygame.Surface((50, 50))
         self.image.fill((255, 150, 0))
@@ -76,6 +86,7 @@ class Player(Robot2.Robot2):
         if keys[pygame.K_DOWN]:
             super().move(0, -self.speed)
         self.draw_health_bar(pygame.display.get_surface())
+        #reload the bullets
         if self.bullets==0:
             if self.bullet_reload > 0:
                 self.bullet_reload -= 1
@@ -98,14 +109,16 @@ class Player(Robot2.Robot2):
         
 
     def draw(self, screen):
+        #draw the barrel of the gun
+        current_barrel = self.barrel_amout[self.superlevel-1]
+        for i in range(0, current_barrel):
+            self.draw_barrel(screen, i*360/current_barrel)
 
-        self.draw_barrel(screen, 0)
-
-        if self.level >= 5: #for testing
-            self.draw_barrel(screen, 180)
-        if self.level >= 10 :
-            self.draw_barrel(screen, 90)
-            self.draw_barrel(screen, 270)
+        # if self.level >= 5: #for testing
+        #     self.draw_barrel(screen, 180)
+        # if self.level >= 10 :
+        #     self.draw_barrel(screen, 90)
+        #     self.draw_barrel(screen, 270)
             
         #draw the player
         super().draw(screen)     
@@ -145,8 +158,9 @@ class Player(Robot2.Robot2):
         #             self.bullet_reload_max -= 1
 
         self.level += 1
-        self.talent_point += 1
+        self.talent_point += 2
         if self.level % 5 == 0:
+            self.superlevel += 1
             self.sounds_manager.superlevel_up_sound.play()
         else:
             self.sounds_manager.level_up_sound.play()
@@ -157,18 +171,14 @@ class Player(Robot2.Robot2):
             self.bullets -= 1  
             #shoot a bullet in the direction the mouse is pointing
             sub_bullets = []
-            direction = self.get_mouse_direction()
-            bullet = Bullet.Bullet(self.rect.centerx+direction.x*50, self.rect.centery+direction.y*50, self.bullet_speed, direction)
-            sub_bullets.append(bullet)
-            if self.level < 10 and self.level >= 5:
-                direction = self.get_mouse_direction().rotate(180)
+            
+            
+            current_barrel = self.barrel_amout[self.superlevel-1]
+            for i in range(0, current_barrel):
+                direction = self.get_mouse_direction().rotate(i*360/current_barrel)
                 bullet = Bullet.Bullet(self.rect.centerx+direction.x*50, self.rect.centery+direction.y*50, self.bullet_speed, direction)
                 sub_bullets.append(bullet)
-            elif self.level >= 10:
-                for i in [90, 180, 270]:
-                    direction = self.get_mouse_direction().rotate(i)
-                    bullet = Bullet.Bullet(self.rect.centerx+direction.x*50, self.rect.centery+direction.y*50, self.bullet_speed, direction)
-                    sub_bullets.append(bullet)
+
             return sub_bullets
         
     def move(self, dx, dy):
@@ -181,14 +191,33 @@ class Player(Robot2.Robot2):
         return direction
     
     def add_max_health(self):
+        self.talent_point -= 1
         self.max_health += 20
+        self.health += 20
+
     
     def add_attack(self):
+        self.talent_point -= 1
         self.attack += 3
 
     def add_speed(self):
+        self.talent_point -= 1
         self.speed += 2
         self.max_speed += 2
 
     def add_gun_level(self):
+        self.talent_point -= 1
         self.gun_level += 1
+
+        self.bullet_speed += self.gunlevel_to_bullet["bullet_speed"][(self.gun_level-1)%6]
+        self.bullet_reload += self.gunlevel_to_bullet["bullet_reload"][(self.gun_level-1)%6]
+        self.bullet_reload_max = max(0, self.bullet_reload_max)
+        self.bullet_cooldown += self.gunlevel_to_bullet["bullet_cooldown"][(self.gun_level-1)%6]
+        self.bullet_cooldown_max = max(0, self.bullet_cooldown_max)
+        self.max_bullets += self.gunlevel_to_bullet["max_bullets"][(self.gun_level-1)%6]
+        # self.bullet_reload_max -= 1
+        # self.bullet_reload_max = max(0, self.bullet_reload_max)
+        # self.bullet_cooldown_max -= 1
+        # self.bullet_cooldown_max = max(0, self.bullet_cooldown_max)
+        # self.bullet_speed += 1
+        # self.max_bullets += 1
