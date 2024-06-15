@@ -118,16 +118,16 @@ class Player(Robot2.Robot2):
             #shoot a bullet in the direction the mouse is pointing
             sub_bullets = []
             direction = self.get_mouse_direction()
-            bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+            bullet = Bullet.Bullet(self.rect.centerx+direction.x*50, self.rect.centery+direction.y*50, self.bullet_speed, direction)
             sub_bullets.append(bullet)
             if self.level < 10 and self.level >= 5:
                 direction = self.get_mouse_direction().rotate(180)
-                bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+                bullet = Bullet.Bullet(self.rect.centerx+direction.x*50, self.rect.centery+direction.y*50, self.bullet_speed, direction)
                 sub_bullets.append(bullet)
             elif self.level >= 10:
-                for i in [90, 180, 270, 45, 135, 225, 315]:
+                for i in [90, 180, 270]:
                     direction = self.get_mouse_direction().rotate(i)
-                    bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+                    bullet = Bullet.Bullet(self.rect.centerx+direction.x*50, self.rect.centery+direction.y*50, self.bullet_speed, direction)
                     sub_bullets.append(bullet)
             return sub_bullets
         
