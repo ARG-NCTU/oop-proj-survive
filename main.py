@@ -4,26 +4,16 @@ import Robot, Enemy, CameraGroup, Bullet, Player, Wall, Supply, Button
 import pymunk
 import RankManager, SoundsManager
 import time
+import Setting as s
 
 ### Note that the coordinates follow the pymunk coordinate system
 ### where (0, 0) is at the bottom left corner of the screen
 
-FPS = 60 #frames per second
-WHITE = (255, 255, 255)
-WIDTH, HEIGHT = 2000, 2000
-scrWIDTH, scrHEIGHT = 800, 800
-
-LEFT = 25
-RIGHT = WIDTH-25
-TOP = 25
-BOTTOM = HEIGHT-25
-MIDDLEX = (LEFT + RIGHT) / 2
-MIDDLEY = (TOP + BOTTOM) / 2
 
 
 #initialize the pygame
 pygame.init()
-screen = pygame.display.set_mode((scrWIDTH, scrHEIGHT))
+screen = pygame.display.set_mode((s.scrWIDTH, s.scrHEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 minutes = 0
@@ -64,10 +54,10 @@ enemy_bullets = pygame.sprite.Group()
 supplies = pygame.sprite.Group()
 
 #initialize the walls
-wall_left = Wall.Wall([LEFT, TOP], [LEFT, BOTTOM],2)
-wall_right = Wall.Wall((RIGHT, TOP), (RIGHT, BOTTOM),2)
-wall_top = Wall.Wall((LEFT, TOP), (RIGHT, TOP),2)
-wall_bottom = Wall.Wall((LEFT, BOTTOM), (RIGHT, BOTTOM),2)
+wall_left = Wall.Wall([s.LEFT, s.TOP], [s.LEFT, s.BOTTOM],2)
+wall_right = Wall.Wall((s.RIGHT, s.TOP), (s.RIGHT, s.BOTTOM),2)
+wall_top = Wall.Wall((s.LEFT, s.TOP), (s.RIGHT, s.TOP),2)
+wall_bottom = Wall.Wall((s.LEFT, s.BOTTOM), (s.RIGHT, s.BOTTOM),2)
 space.add(wall_left.body, wall_left.shape)
 space.add(wall_right.body, wall_right.shape)
 space.add(wall_top.body, wall_top.shape)
@@ -260,8 +250,8 @@ while running:
     #player.draw(screen)
     #all_sprites.draw(screen)
     pygame.display.flip()
-    clock.tick(FPS) #FPS frames per second
-    space.step(1/FPS) # Step the physics simulation
+    clock.tick(s.FPS) #FPS frames per second
+    space.step(1/s.FPS) # Step the physics simulation
 
 while end_page_running:
     screen.fill((255, 255, 255))  

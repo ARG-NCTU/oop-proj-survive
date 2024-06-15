@@ -11,6 +11,10 @@ class Wall(pygame.sprite.Sprite):
         if collision_number:
             self.shape.collision_type = collision_number
 
+    def draw(self, screen, none):
+        pygame.draw.line(screen, (200,200,200), self.shape.a, self.shape.b, 10)
+
+
     def draw_gradient_shadow(self, screen, shadow_color, shadow_width, shadow_direction):
         # Direction vector of the wall
         direction = (self.shape.b.x - self.shape.a.x, self.shape.b.y - self.shape.a.y)
@@ -42,10 +46,12 @@ class Wall(pygame.sprite.Sprite):
         # Blit the rotated gradient surface onto the screen
         screen.blit(rotated_surface, pos)
 
-    def draw(self, screen, shadow_direction):
-        # Define the shadow color (black with transparency)
-        shadow_color = (0, 0, 0, 100)
-        shadow_width = 20
+    # def draw(self, screen, shadow_direction):
+    #     # Define the shadow color (black with transparency)
+    #     shadow_color = (0, 0, 0, 100)
+    #     shadow_width = 20
         
-        # Draw the gradient shadow
-        self.draw_gradient_shadow(screen, shadow_color, shadow_width, shadow_direction)
+    #     # Draw the gradient shadow
+    #     self.draw_gradient_shadow(screen, shadow_color, shadow_width, shadow_direction)
+    #     # Draw the corner of the wall
+    #     self.draw_conner(screen)
