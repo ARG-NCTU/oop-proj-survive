@@ -208,6 +208,22 @@ class Player(Robot2.Robot2):
     def add_gun_level(self):
         self.talent_point -= 1
         self.gun_level += 1
+    def reset(self):
+        self.speed = 50
+        self.max_speed = 500
+        self.health = 200
+        self.level = 1
+        self.max_health = 200 
+
+        self.attack = 30
+        self.max_bullets = 10
+        self.bullets = 10
+        self.bullet_speed = 10
+        self.bullet_reload = 30
+        self.bullet_reload_max = 35
+        self.bullet_cooldown = 5
+        self.bullet_cooldown_max = 7
+        self.ready_to_shoot = True
 
         self.bullet_speed += self.gunlevel_to_bullet["bullet_speed"][(self.gun_level-1)%6]
         self.bullet_reload += self.gunlevel_to_bullet["bullet_reload"][(self.gun_level-1)%6]

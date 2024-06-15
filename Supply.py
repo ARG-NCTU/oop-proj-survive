@@ -3,10 +3,10 @@ class Supply(pygame.sprite.Sprite):
     def __init__(self, x, y,supplytype):
         super().__init__()
         self.image = pygame.Surface((50, 50))
-        self.image.fill((255, 255, 255))
+        self.image.fill((235, 235, 235))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.image.set_alpha(220)
+        self.image.set_alpha(190)
         self.supplytype = supplytype
         pygame.draw.circle(self.image, (255, 255, 185), (25, 25), 25)
         if self.supplytype == 0: #health
@@ -24,6 +24,9 @@ class Supply(pygame.sprite.Sprite):
         x = self.rect.x
         y = self.rect.y
         screen.blit(self.image, (x, y))
+        
+    
+        
         
     
         
