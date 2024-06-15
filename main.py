@@ -367,7 +367,7 @@ def player_die():
     running = False
     sounds_manager.gameover_sound.play()
     current_time = time.strftime("%Y/%m/%d\n%H:%M:%S", time.localtime())
-    rank_manager.add_data(current_time, score, minutes*60 + seconds, score * (minutes*60 + seconds))
+    rank_manager.add_data(user_text, score, minutes*60 + seconds, score * (minutes*60 + seconds))
     for enemy in enemies:
         enemy.kill()
     for bullet in bullets:
