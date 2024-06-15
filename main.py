@@ -39,7 +39,7 @@ space.add(player.body, player.shape)
 all_sprites.add(player)
 
 score = 0
-
+score_change = False
 # Create a group for the enemies
 enemies = pygame.sprite.Group()
 enemy_number = 1 #number of enemies
@@ -137,6 +137,7 @@ while running:
     for enemy in enemies:
         if enemy.check_attack(bullets): # The enemy is dead
             enemy_number -=1 
+            score_change = True
             space.remove(enemy.body, enemy.shape)
        
         score += enemy.score
@@ -155,8 +156,11 @@ while running:
     if player.health <= 0:
         running = False 
 
+    if pygame.time.get_ticks() % 2000 <= 10:
+        max_enemies += 1
+
     #enemy 死掉的时候，重新生成一个enemy
-    if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 30:
+    if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 100:
         enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 3),player)
         enemies.add(enemy)
         space.add(enemy.body, enemy.shape)
@@ -197,6 +201,10 @@ while running:
     screen.fill((255,0,0))
     camera_group.temp_surface.fill((255,255,255))
     
+    if score % 5 == 0 and score != 0 and score_change:
+        player.level += 1
+        score_change = False
+
     player.draw_health_bar(camera_group.temp_surface)
     for enemy in enemies:
         enemy.draw_health_bar(camera_group.temp_surface)

@@ -60,8 +60,6 @@ class Player(Robot2.Robot2):
             else:
                 self.bullets = 10
                 self.bullet_cooldown = 300
-        if pygame.time.get_ticks() % 10000 == 0:
-            self.level_up()
 
         # initial ready to shoot
         if self.ready_to_shoot == False:
@@ -81,9 +79,10 @@ class Player(Robot2.Robot2):
 
         self.draw_barrel(screen, 0)
 
-        if 1: #for testing
-            self.draw_barrel(screen, 90)
+        if self.level >= 5: #for testing
             self.draw_barrel(screen, 180)
+        if self.level >= 10 :
+            self.draw_barrel(screen, 90)
             self.draw_barrel(screen, 270)
             
         #draw the player
@@ -121,8 +120,12 @@ class Player(Robot2.Robot2):
             direction = self.get_mouse_direction()
             bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
             sub_bullets.append(bullet)
-            if 1: #for testing
-                for i in [90, 180, 270]:
+            if self.level < 10 and self.level >= 5:
+                direction = self.get_mouse_direction().rotate(180)
+                bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
+                sub_bullets.append(bullet)
+            elif self.level >= 10:
+                for i in [90, 180, 270, 45, 135, 225, 315]:
                     direction = self.get_mouse_direction().rotate(i)
                     bullet = Bullet.Bullet(self.rect.centerx, self.rect.centery, self.bullet_speed, direction)
                     sub_bullets.append(bullet)
