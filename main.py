@@ -95,7 +95,7 @@ def start_game():
         pygame.draw.rect(screen, (255, 255, 0), (665, 715, 20, 20))
         pygame.draw.circle(screen, (255, 200, 0), (750, 650), 25)
         font = pygame.font.Font(None, 55)  
-        text = font.render("My Game", True, (0, 0, 0))  
+        text = font.render("How Long Can You Survive?", True, (0, 0, 0))  
         screen.blit(text, (300, 200))  
         pygame.display.flip()  # 
 
