@@ -15,7 +15,7 @@ class StatusWindow(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, (200,200,200), (0, 0, self.WINDOW_WIDTH, self.WINDOW_HEIGHT), 3)
         self.rect = self.image.get_rect(bottomright=(s.scrWIDTH - 10, s.scrHEIGHT - 10))
 
-        self.text_lst = ["HP", "Attack", "Speed", "Gun level", "Talent point"]
+        self.text_lst = ["HP", "Attack", "Speed", "Gun Level", "Talent Point"]
         self.value_lst = [self.player.health, self.player.attack, self.player.speed, self.player.gun_level, self.player.talent_point]
         self.action_lst = [self.player.add_max_health, self.player.add_attack, self.player.add_speed, self.player.add_gun_level]
         #button color
@@ -38,14 +38,17 @@ class StatusWindow(pygame.sprite.Sprite):
         pass
         self.image.fill(self.WINDOW_COLOR)
         pygame.draw.rect(self.image, (200,200,200), (0, 0, self.WINDOW_WIDTH, self.WINDOW_HEIGHT), 3)
-        font = pygame.font.Font(None, 25)
+        
 
         lst_len = len(self.text_lst)
         self.value_lst = [self.player.health, self.player.attack, self.player.speed, self.player.gun_level, self.player.talent_point]
 
         for i in range(lst_len):
+            font = pygame.font.Font(None, 25)
             if self.text_lst[i] == "HP":
                 value = f"{self.value_lst[i]}/{self.player.max_health}"
+            elif self.text_lst[i] == "Talent Point":
+                font = pygame.font.Font(None, 22)
             else:
                 value = self.value_lst[i]
             text = font.render(f"{self.text_lst[i]}: {value}", True, (0, 0, 0))
