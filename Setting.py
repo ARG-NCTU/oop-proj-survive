@@ -1,4 +1,4 @@
-FPS = 60 #frames per second
+FPS = 70 #frames per second
 WHITE = (255, 255, 255)
 WIDTH, HEIGHT = 2000, 2000
 scrWIDTH, scrHEIGHT = 800, 700

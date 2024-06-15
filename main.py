@@ -240,7 +240,7 @@ def game_playing():
             has_boss = True
 
         #create a supply every 15 seconds
-        if pygame.time.get_ticks() % 15000 < 60:
+        if pygame.time.get_ticks() % 15000 < 60 and player.level < player.max_level:
             supply = Supply.Supply(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 2))
             supplies.add(supply)
             all_sprites.add(supply)

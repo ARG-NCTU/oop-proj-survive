@@ -23,7 +23,7 @@ class Player(Robot2.Robot2):
         self.max_level = 30
         self.max_health = 200 
         self.gun_level = 1
-        self.talent_point = 2
+        self.talent_point = 3
 
         self.attack = 30
         self.max_bullets = 10
@@ -158,7 +158,7 @@ class Player(Robot2.Robot2):
         #             self.bullet_reload_max -= 1
 
         self.level += 1
-        self.talent_point += 2
+        self.talent_point += 1
         if self.level % 5 == 0:
             self.superlevel += 1
             self.sounds_manager.superlevel_up_sound.play()
@@ -195,8 +195,9 @@ class Player(Robot2.Robot2):
     
     def add_max_health(self):
         self.talent_point -= 1
+        rate = self.health/self.max_health
         self.max_health += 20
-        self.health += 20
+        self.health = int(self.max_health * rate)
 
     
     def add_attack(self):
