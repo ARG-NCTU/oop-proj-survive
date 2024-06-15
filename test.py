@@ -1,5 +1,5 @@
 import pygame
-import pymunk
+import io
 
 # Initialize Pygame
 pygame.init()
@@ -12,44 +12,28 @@ pygame.display.set_caption("My Pygame")
 clock = pygame.time.Clock()
 FPS = 60
 
-angle = 0
+# Load the background image 
+# turn the svg image to a png image
+background = pygame.image.load("assets/background.svg")
+#pygame.image.save(backgroun_svg, "assets/background.png")
+#background = pygame.image.load("assets/background.png")
+#to avoid the black background
+#background.set_colorkey((0,0,0))
 
-image = pygame.surface.Surface((50, 50))
-image.fill((255, 150, 0))
-image.set_colorkey((0, 0, 0))
-rect = image.get_rect()
-rect.center = (100, 100)
 
 running = True
 while running:
-    
     # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # Update game logic
-    #pygame.display.update()
-   
     # Render graphics
-    
-    screen.fill((0, 0, 0))  # Fill the screen with black
-    #rotate a rectangle
-    
-    
-    old_center = rect.center
-    angle += 1
-    new_image = pygame.transform.rotate(image, angle)
-    rect = new_image.get_rect()
-    rect.center = old_center
-    screen.blit(new_image, rect)
-
+    screen.fill((100, 100, 150))  # Fill the screen with a background color
+    screen.blit(background, (0, 0))  # Blit the background image onto the screen
 
     pygame.display.flip()  # Update the display
-    clock.tick(FPS) # Cap the frame rate
-    #space.step(1/FPS) # Step the physics simulation
-
-    
+    clock.tick(FPS)  # Cap the frame rate
 
 # Quit Pygame
 pygame.quit()

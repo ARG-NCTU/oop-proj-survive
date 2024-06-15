@@ -200,6 +200,7 @@ while running:
     #draw the screen
     screen.fill((255,0,0))
     camera_group.temp_surface.fill((255,255,255))
+    camera_group.draw_ground()
     
     if score % 5 == 0 and score != 0 and score_change:
         player.level_up()
@@ -209,10 +210,12 @@ while running:
     for enemy in enemies:
         enemy.draw_health_bar(camera_group.temp_surface)
 
-    wall_left.draw(camera_group.temp_surface)
-    wall_right.draw(camera_group.temp_surface)
-    wall_top.draw(camera_group.temp_surface)
-    wall_bottom.draw(camera_group.temp_surface)
+
+    
+    wall_left.draw(camera_group.temp_surface,"left")
+    wall_right.draw(camera_group.temp_surface, "right")
+    wall_top.draw(camera_group.temp_surface,"top")
+    wall_bottom.draw(camera_group.temp_surface,"bottom")
     camera_group.custom_draw(player)
 
     font = pygame.font.Font(None, 55) # Choose the font for the score, None means the default font
