@@ -5,23 +5,24 @@ class Robot2(pygame.sprite.Sprite):
     def __init__(self, x, y):
         #pygame
         super().__init__()
-        self.image = pygame.Surface((50, 50))
+        '''self.image = pygame.Surface((50, 50))
         self.image.fill((255, 150, 0))
         self.image.set_colorkey((255, 150, 0))
         self.rect = self.image.get_rect()
         self.radius = 25
         pygame.draw.circle(self.image, (255, 200, 0), (25, 25), 25)
-        self.rect.center = self.covert_xy_to_pygame(x, y)
+        self.rect.center = self.covert_xy_to_pygame(x, y)'''
 
         #pymunk
         self.body = pymunk.Body()
         self.body.position = x,y
         self.body.velocity = 0, 0
-        self.shape = pymunk.Circle(self.body, 25)
+        '''self.shape = pymunk.Circle(self.body, 25)
         self.shape.density = 1
-        self.shape.elasticity = 1
+        self.shape.elasticity = 1'''
         #space.add(self.body, self.shape)
-        self.shape.collision_type = 1
+
+        #self.shape.collision_type = 1
 
 
         #Movement attributes  

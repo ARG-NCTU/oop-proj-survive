@@ -3,12 +3,13 @@ import Robot, Bullet
 import Robot2
 import Setting as s
 import math
+import pymunk
 
 class Player(Robot2.Robot2):
     def __init__(self, x, y):
         super().__init__(x, y)
         #add frame to the circle
-        pygame.draw.circle(self.image, (100, 100, 100), (25, 25), 25, 3)
+        
         # self.image.fill((0, 255, 255))
         
         #Attributes
@@ -28,6 +29,19 @@ class Player(Robot2.Robot2):
         self.bullet_cooldown_max = 7
         self.ready_to_shoot = True
         self.health_bar_size = [50, 10]
+        self.image = pygame.Surface((50, 50))
+        self.image.fill((255, 150, 0))
+        self.image.set_colorkey((255, 150, 0))
+        self.rect = self.image.get_rect()
+        self.radius = 25
+        pygame.draw.circle(self.image, (255, 200, 0), (25, 25), 25)
+        pygame.draw.circle(self.image, (100, 100, 100), (25, 25), 25, 3)
+        self.rect.center = self.covert_xy_to_pygame(x, y)
+        self.shape = pymunk.Circle(self.body, 25)
+        self.shape.density = 1
+        self.shape.elasticity = 1
+        self.shape.collision_type = 1
+        
 
         #barrel of the gun
         barrel_length = 50

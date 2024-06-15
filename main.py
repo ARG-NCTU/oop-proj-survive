@@ -26,6 +26,8 @@ pygame.init()
 screen = pygame.display.set_mode((scrWIDTH, scrHEIGHT))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
+minutes = 0
+seconds = 0
 running = True
 start_page_running = True
 end_page_running = True
@@ -141,7 +143,13 @@ while running:
             space.remove(enemy.body, enemy.shape)
        
         score += enemy.score
-        if enemy.enemytype == 3 and pygame.time.get_ticks() % 1000 < 5:
+        if enemy.enemytype == 3 and pygame.time.get_ticks() % 1000 < 10:
+            enemy_bullet = enemy.shoot()
+            if enemy_bullet:
+                all_sprites.add(enemy_bullet)
+                camera_group.add(enemy_bullet)
+                enemy_bullets.add(enemy_bullet)
+        if enemy.enemytype == 7 and pygame.time.get_ticks() % 1000 < 20:
             enemy_bullet = enemy.shoot()
             if enemy_bullet:
                 all_sprites.add(enemy_bullet)
@@ -161,12 +169,36 @@ while running:
 
     #enemy 死掉的时候，重新生成一个enemy
     if enemy_number < max_enemies and pygame.time.get_ticks() % 1000 < 100:
-        enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 3),player)
+        if minutes * 60 + seconds < 20:
+            enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(0, 3),player)
+        elif minutes * 60 + seconds < 40:
+            enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(1, 4),player)
+        elif minutes * 60 + seconds < 60:
+            enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(2, 5),player)
+        elif minutes * 60 + seconds < 80:
+            enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(3, 6),player)
+        else:
+            enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(4, 7),player)
+
         enemies.add(enemy)
         space.add(enemy.body, enemy.shape)
         all_sprites.add(enemy)
         camera_group.add(enemy)
         enemy_number += 1
+    #create a boss
+    for enemy in enemies:
+        if enemy.enemytype == 8:
+            has_boss = True
+            break
+        else:
+            has_boss = False
+    if  seconds % 20 == 19 and not has_boss:
+        enemy = Enemy.Enemy(random.randint(200, 1800), random.randint(200, 1800), 8,player)
+        enemies.add(enemy)
+        space.add(enemy.body, enemy.shape)
+        all_sprites.add(enemy)
+        camera_group.add(enemy)
+        has_boss = True
 
     #create a supply every 5 seconds
     if pygame.time.get_ticks() % 5000 <= 10:

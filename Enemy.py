@@ -3,6 +3,7 @@ import Robot2
 import random
 import Bullet
 import SoundsManager
+import pymunk
 
 class Enemy(Robot2.Robot2):
     def __init__(self, x, y, enemytype, player):
@@ -12,38 +13,102 @@ class Enemy(Robot2.Robot2):
         self.player_x = 400
         self.player_y = 300
         self.enemytype = enemytype
-        self.health_bar_size = [50, 10]
+        
+        if self.enemytype <= 7 and self.enemytype >=0:
+            self.health_bar_size = [50, 10]
+            self.image = pygame.Surface((50, 50))
+            self.image.fill((255, 150, 0))
+            self.image.set_colorkey((255, 150, 0))
+            self.rect = self.image.get_rect()
+            self.radius = 25
+            pygame.draw.circle(self.image, (255, 200, 0), (25, 25), 25)
+            self.rect.center = self.covert_xy_to_pygame(x, y)
+            self.shape = pymunk.Circle(self.body, 25)
+        else:
+            self.health_bar_size = [100, 10]
+            self.image = pygame.Surface((100, 100))
+            self.image.fill((255, 150, 0))
+            self.image.set_colorkey((255, 150, 0))
+            self.rect = self.image.get_rect()
+            self.radius = 50
+            pygame.draw.circle(self.image, (255, 200, 0), (50, 50), 50)
+            self.rect.center = self.covert_xy_to_pygame(x, y)
+            self.shape = pymunk.Circle(self.body, 50)
+        self.shape.density = 1
+        self.shape.elasticity = 1
+        self.shape.collision_type = 1
 
         self.sounds_manager = SoundsManager.SoundsManager()
 
-        if self.enemytype == 0:
+        if self.enemytype == 0: #red enemy
             self.health = 100
             self.max_health = 100
-            self.attack = 6
+            self.attack = 10
             pygame.draw.circle(self.image, (155, 0, 0), (25, 25), 25)
             pygame.draw.circle(self.image, (255, 0, 0), (25, 25), 15)
             self.speed = 20
-        elif self.enemytype == 1:
+        elif self.enemytype == 1: #green enemy
             self.health = 40
             self.max_health = 40
             self.attack = 7
             pygame.draw.circle(self.image, (0, 155, 0), (25, 25), 25)
             pygame.draw.circle(self.image, (0, 255, 0), (25, 25), 15)
             self.speed = 40
-        elif self.enemytype == 3:  #固定式砲台
-            self.health = 100
-            self.max_health = 100
-            self.attack = 10
-            pygame.draw.rect(self.image, (155, 155, 0), (0, 0, 50, 50))
-            pygame.draw.rect(self.image, (255, 255, 0), (15, 15, 20, 20))
-            self.speed = 0
-        else:  
+        elif self.enemytype == 2: #blue enemy
             self.health = 150
             self.max_health = 150
             self.attack = 15
             pygame.draw.circle(self.image, (0, 0, 155), (25, 25), 25)
             pygame.draw.circle(self.image, (0, 0, 255), (25, 25), 15)
             self.speed = 10
+        elif self.enemytype == 3:  #固定式砲台
+            self.health = 100
+            self.max_health = 100
+            self.attack = 10
+            pygame.draw.rect(self.image, (155, 155, 0), (0, 0, 50, 50))
+            pygame.draw.rect(self.image, (255, 255, 0), (10, 10, 30, 30))
+            self.speed = 0
+        elif self.enemytype == 4: #red enemy upgraded
+            self.health = 150
+            self.max_health = 150
+            self.attack = 15
+            pygame.draw.circle(self.image, (60, 0, 0), (25, 25), 25)
+            pygame.draw.circle(self.image, (255, 0, 0), (25, 25), 15)
+            pygame.draw.circle(self.image, (60, 0, 0), (25, 25), 5)
+            self.speed = 10
+        elif self.enemytype == 5: #green enemy upgraded
+            self.health = 100
+            self.max_health = 100
+            self.attack = 10
+            pygame.draw.circle(self.image, (0, 60, 0), (25, 25), 25)
+            pygame.draw.circle(self.image, (0, 255, 0), (25, 25), 15)
+            pygame.draw.circle(self.image, (0, 60, 0), (25, 25), 5)
+            self.speed = 40
+        elif self.enemytype == 6: #blue enemy upgraded
+            self.health = 200
+            self.max_health = 200
+            self.attack = 20
+            pygame.draw.circle(self.image, (0, 0, 60), (25, 25), 25)
+            pygame.draw.circle(self.image, (0, 0, 255), (25, 25), 15)
+            pygame.draw.circle(self.image, (0, 0, 60), (25, 25), 5)
+            self.speed = 20
+        elif self.enemytype == 7: #砲台 upgraded
+            self.health = 150
+            self.max_health = 150
+            self.attack = 15
+            pygame.draw.rect(self.image, (60, 60, 0), (0, 0, 50, 50))
+            pygame.draw.rect(self.image, (255, 255, 0), (10, 10, 30, 30))
+            pygame.draw.rect(self.image, (60, 60, 0), (15, 15, 20, 20))
+            self.speed = 0
+        else: #boss
+            self.health = 1500
+            self.max_health = 1500
+            self.attack = 50
+            pygame.draw.circle(self.image, (0, 0, 0), (50, 50), 50)
+            pygame.draw.circle(self.image, (150, 150, 150), (50, 50), 40)
+            pygame.draw.circle(self.image, (0, 0, 0), (50, 50), 30)
+            self.speed = 20
+        
         
     def draw_health_bar(self, screen):
         self.health_bar_position = [self.rect.x, self.rect.y-25]  
