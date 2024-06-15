@@ -103,7 +103,7 @@ class Player(Robot2.Robot2):
         screen.blit(new_barrel, (self.rect.centerx - rect.width/2, self.rect.centery - rect.height/2) + offset)
         
     def level_up(self):
-        if self.level < 20:
+        if self.level < 20: #max level=20
             self.level += 1
             if self.level % 5 == 0:
                 self.max_health += 10
