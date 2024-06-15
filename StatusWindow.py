@@ -47,7 +47,7 @@ class StatusWindow(pygame.sprite.Sprite):
             font = pygame.font.Font(None, 25)
             if self.text_lst[i] == "HP":
                 value = f"{self.value_lst[i]}/{self.player.max_health}"
-            elif self.text_lst[i] == "Talent Point":
+            elif self.text_lst[i] == "Talent Point" or self.text_lst[i] == "Gun Level":
                 font = pygame.font.Font(None, 22)
             else:
                 value = self.value_lst[i]
