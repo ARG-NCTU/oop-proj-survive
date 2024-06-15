@@ -209,14 +209,14 @@ while running:
             supply.kill()
             sounds_manager.supply_sound.play()
             if supply.supplytype == 0:
-                if player.health + 30 <= player.max_health:
-                    player.health += 30
+                if player.health + 100 <= player.max_health:
+                    player.health += 100
                 elif player.health < player.max_health:
                     add_health = player.max_health - player.health
                     player.health += add_health
             elif supply.supplytype == 1:
-                if player.speed +30 <= player.max_speed:
-                    player.speed += 30
+                if player.speed +10 <= player.max_speed:
+                    player.speed += 10
                 elif player.speed < player.max_speed:
                     add_spped = player.max_speed - player.speed
                     player.speed += add_spped
