@@ -78,8 +78,16 @@ sounds_manager = SoundsManager.SoundsManager()
 
 #Status window
 status_window = StatusWindow.StatusWindow(player)
+#name
+base_font = pygame.font.Font(None, 32)
+user_text = ''
+input_rect = pygame.Rect(350, 400, 140, 32)
+color_active = pygame.Color('lightskyblue3')
+color_passive = pygame.Color('gray15')
+color = color_passive
+active = False
 def start_game():
-    global start_page_running
+    global start_page_running, running, active, user_text, color, input_rect, name
     while start_page_running:
         screen.fill((255, 255, 255))  
         #Draw a circle
@@ -95,15 +103,38 @@ def start_game():
         pygame.draw.rect(screen, (255, 255, 0), (665, 715, 20, 20))
         pygame.draw.circle(screen, (255, 200, 0), (750, 650), 25)
         font = pygame.font.Font(None, 55)  
-        text = font.render("How Long Can You Survive?", True, (0, 0, 0)) 
-        screen.blit(text, (text.get_width()//2-100, 200))
-        pygame.display.flip()  # 
+        text = font.render("How Long Can you Survive", True, (0, 0, 0))  
+        screen.blit(text, (150, 200)) 
+        font = pygame.font.Font(None, 32)
+        name = font.render("Enter Your Name", True, (0, 0, 0))  
+        screen.blit(name, (310, 350)) 
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.is_clicked(pygame.mouse.get_pos()):
                     sounds_manager.button_sound.play()
                     start_page_running = False
+                if input_rect.collidepoint(event.pos):
+                    active = True
+                else:
+                    active = False
+                color = color_active if active else color_passive
+            if event.type == pygame.QUIT:
+                start_page_running = False
+                running = False
+                return
+            if event.type == pygame.KEYDOWN:
+                if active:
+                    if event.key == pygame.K_BACKSPACE:
+                        user_text = user_text[:-1]
+                    else:
+                        user_text += event.unicode
+        pygame.draw.rect(screen, color, input_rect,2)
+        txt_surface = base_font.render(user_text, True, (0,0,0))
+        screen.blit(txt_surface, (input_rect.x+5, input_rect.y+5))
+        input_rect.w = max(100, txt_surface.get_width()+10)
+        pygame.display.flip()
+
 
 
 #game loop 
