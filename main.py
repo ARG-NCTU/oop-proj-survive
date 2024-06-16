@@ -65,7 +65,8 @@ space.add(wall_bottom.body, wall_bottom.shape)
 
 start_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Start')
 restart_button = Button.Button(300, 500, 200, 50, (255, 0, 0), 'Restart')
-see_rank_button = Button.Button(300, 580, 200, 50, (255, 0, 0), 'See Rank')
+see_rank_button = Button.Button(300, 560, 200, 50, (255, 0, 0), 'See Rank')
+quit_button = Button.Button(300, 560, 200, 50, (255, 0, 0), 'Quit') #y: 560, 620
 is_end_game = False
 
 #RankManager
@@ -92,6 +93,8 @@ def start_game():
         screen.fill((255, 255, 255))  
         #Draw a circle
         start_button.draw(screen)
+        quit_button.y = 570
+        quit_button.draw(screen)
         pygame.draw.circle(screen, (155, 0, 0), (25, 25), 25)
         pygame.draw.circle(screen, (255, 0, 0), (25, 25), 15)
         pygame.draw.circle(screen, (0, 155, 0), (100, 35), 25)
@@ -126,6 +129,10 @@ def start_game():
                 if start_button.is_clicked(pygame.mouse.get_pos()):
                     sounds_manager.button_sound.play()
                     start_page_running = False
+                if quit_button.is_clicked(pygame.mouse.get_pos()):
+                    sounds_manager.button_sound.play()
+                    pygame.time.delay(300) #delay for sound effect
+                    pygame.quit()
                 if input_rect.collidepoint(event.pos):
                     active = True
                 else:
@@ -366,6 +373,8 @@ def end_game():
         screen.blit(final_score, (300, 350))
         restart_button.draw(screen)
         see_rank_button.draw(screen)
+        quit_button.y = 620
+        quit_button.draw(screen)
         pygame.display.flip()  # 
 
         for event in pygame.event.get():
@@ -381,6 +390,12 @@ def end_game():
                 if see_rank_button.is_clicked(pygame.mouse.get_pos()):
                     sounds_manager.button_sound.play()
                     rank_manager.show_rank()
+                if quit_button.is_clicked(pygame.mouse.get_pos()):
+                    sounds_manager.button_sound.play()
+                    #delay for sound effect
+                    pygame.time.delay(300)
+                    pygame.quit()
+                    return
 
 def reset():
     global minutes, seconds, running, start_page_running, end_page_running, score, score_change, enemy_number, max_enemies, screen
