@@ -24,7 +24,7 @@ class Enemy(Robot2.Robot2):
             pygame.draw.circle(self.image, (255, 200, 0), (25, 25), 25)
             self.rect.center = self.covert_xy_to_pygame(x, y)
             self.shape = pymunk.Circle(self.body, 25)
-        else:
+        elif self.enemytype == 8:
             self.health_bar_size = [100, 10]
             self.image = pygame.Surface((100, 100))
             self.image.fill((255, 150, 0))
@@ -34,6 +34,16 @@ class Enemy(Robot2.Robot2):
             pygame.draw.circle(self.image, (255, 200, 0), (50, 50), 50)
             self.rect.center = self.covert_xy_to_pygame(x, y)
             self.shape = pymunk.Circle(self.body, 50)
+        else:
+            self.health_bar_size = [200, 10]
+            self.image = pygame.Surface((200, 200))
+            self.image.fill((255, 150, 0))
+            self.image.set_colorkey((255, 150, 0))
+            self.rect = self.image.get_rect()
+            self.radius = 75
+            pygame.draw.circle(self.image, (255, 200, 0), (100, 100), 100)
+            self.rect.center = self.covert_xy_to_pygame(x, y)
+            self.shape = pymunk.Circle(self.body, 75)
         self.shape.density = 1
         self.shape.elasticity = 1
         self.shape.collision_type = 1
@@ -100,7 +110,7 @@ class Enemy(Robot2.Robot2):
             pygame.draw.rect(self.image, (255, 255, 0), (10, 10, 30, 30))
             pygame.draw.rect(self.image, (60, 60, 0), (15, 15, 20, 20))
             self.speed = 0
-        else: #boss
+        elif self.enemytype == 8: #boss
             self.health = 1500
             self.max_health = 1500
             self.attack = 50
@@ -108,6 +118,14 @@ class Enemy(Robot2.Robot2):
             pygame.draw.circle(self.image, (150, 150, 150), (50, 50), 40)
             pygame.draw.circle(self.image, (0, 0, 0), (50, 50), 30)
             self.speed = 20
+        else: #big boss
+            self.health = 4000
+            self.max_health = 4000
+            self.attack = 100
+            pygame.draw.circle(self.image, (70, 70, 70), (100, 100), 100)
+            pygame.draw.circle(self.image, (180, 0, 0), (100, 100), 90)
+            pygame.draw.circle(self.image, (0, 0, 0), (100, 100), 80)
+            self.speed = 35
         
         
     def draw_health_bar(self, screen):

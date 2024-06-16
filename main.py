@@ -216,8 +216,10 @@ def game_playing():
                 enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(2, 5),player)
             elif minutes * 60 + seconds < 80:
                 enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(3, 6),player)
-            else:
+            elif minutes * 60 + seconds < 100:
                 enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(4, 7),player)
+            else:
+                enemy = Enemy.Enemy(random.randint(50, 1950), random.randint(50, 1950), random.randint(4, 8),player)
 
             enemies.add(enemy)
             space.add(enemy.body, enemy.shape)
@@ -225,19 +227,34 @@ def game_playing():
             camera_group.add(enemy)
             enemy_number += 1
         #create a boss
-        for enemy in enemies:
-            if enemy.enemytype == 8:
+        if minutes * 60 + seconds < 100:
+            for enemy in enemies:
+                if enemy.enemytype == 8:
+                    has_boss = True
+                    break
+                else:
+                    has_boss = False
+            if  seconds % 20 == 19 and not has_boss:
+                enemy = Enemy.Enemy(random.randint(200, 1800), random.randint(200, 1800), 8,player)
+                enemies.add(enemy)
+                space.add(enemy.body, enemy.shape)
+                all_sprites.add(enemy)
+                camera_group.add(enemy)
                 has_boss = True
-                break
-            else:
-                has_boss = False
-        if  seconds % 20 == 19 and not has_boss:
-            enemy = Enemy.Enemy(random.randint(200, 1800), random.randint(200, 1800), 8,player)
-            enemies.add(enemy)
-            space.add(enemy.body, enemy.shape)
-            all_sprites.add(enemy)
-            camera_group.add(enemy)
-            has_boss = True
+        else:
+            for enemy in enemies:
+                if enemy.enemytype == 9:
+                    has_boss = True
+                    break
+                else:
+                    has_boss = False
+            if  seconds % 20 == 19 and not has_boss:
+                enemy = Enemy.Enemy(random.randint(200, 1800), random.randint(200, 1800), 9,player)
+                enemies.add(enemy)
+                space.add(enemy.body, enemy.shape)
+                all_sprites.add(enemy)
+                camera_group.add(enemy)
+                has_boss = True
 
         #create a supply every 15 seconds
         if pygame.time.get_ticks() % 15000 < 60 and player.level < player.max_level:
