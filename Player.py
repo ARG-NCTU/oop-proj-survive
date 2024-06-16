@@ -1,5 +1,5 @@
 import pygame
-import Robot, Bullet
+import Bullet
 import Robot2
 import Setting as s
 import math
