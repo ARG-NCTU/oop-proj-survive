@@ -196,10 +196,9 @@ class Player(Robot2.Robot2):
     def add_max_health(self):
         self.talent_point -= 1
         rate = self.health/self.max_health
-        self.max_health += 20
+        self.max_health += 30
         self.health = int(self.max_health * rate)
 
-        self.health = self.max_health
 
     
     def add_attack(self):
