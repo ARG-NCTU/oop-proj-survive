@@ -37,11 +37,11 @@ class RankManager:
             # make the x-axis items horizontal
             plt.xticks(rotation=0)
             # set the color gray of the bars
-            for i in range(len(self.data)):
-                if i ==0:
-                    plt.gca().get_children()[i].set_color('#FF9600')
+            for i in range(min(len(self.data), self.max_show)):
+                if i == 0:
+                    plt.gca().patches[i].set_facecolor('#FF9600')
                 else:
-                    plt.gca().get_children()[i].set_color('#6C6C6C')
+                    plt.gca().patches[i].set_facecolor('#6C6C6C')
             #remove the legend
             plt.gca().get_legend().remove()
             # show the plot
