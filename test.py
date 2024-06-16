@@ -16,9 +16,9 @@ display_screen = pygame.display.set_mode((800, 700))  # Create a window 1200 pix
 background_color = (144, 238, 144)  # A light green color
 
 # Create the Matplotlib plot 
-# figure, axis = plt.subplots()  # Create a figure (the container) and an axis (for plotting)
-# axis.plot([1, 2, 3, 4, 5, 6, 7], [10, 20, 25, 30, 25, 45, 50])  # Plot sample data 
-# plot_canvas = FigureCanvas(figure)  # Create a canvas to render the Matplotlib plot 
+figure, axis = plt.subplots()  # Create a figure (the container) and an axis (for plotting)
+axis.plot([1, 2, 3, 4, 5, 6, 7], [10, 20, 25, 30, 25, 45, 50])  # Plot sample data 
+plot_canvas = FigureCanvas(figure)  # Create a canvas to render the Matplotlib plot 
 
 rank_manager=RankManager.RankManager()
 
@@ -38,19 +38,24 @@ while running:
     # rank_manager.draw_rank(display_screen)
     rank_manager.draw_test(display_screen)
 
-    # Draw the Matplotlib plot onto the Pygame screen
-    # plot_canvas.draw()  # Update the Matplotlib plot if needed
-    # renderer = plot_canvas.get_renderer()  
-    # matplotlib_plot_rgba_image_data = renderer.tostring_rgb()  # Get raw image data of the plot
-    # plot_canvas_width, plot_canvas_height = plot_canvas.get_width_height() 
+    #Draw the Matplotlib plot onto the Pygame screen
+    plot_canvas.draw()  # Update the Matplotlib plot if needed
+    renderer = plot_canvas.get_renderer()  
+    matplotlib_plot_rgba_image_data = renderer.tostring_rgb()  # Get raw image data of the plot
+    plot_canvas_width, plot_canvas_height = plot_canvas.get_width_height() 
+    # set the color gray of the bars
+    # set the color gray of the bars
+    plt.gca().get_children()[0].set_color('#994455')
+    # set the color of the first bar to yellow
+    # plt.gca().get_children()[0].set_color((1.0, 0.588, 0.0))
 
-    # # Convert the Matplotlib image data into a Pygame surface
-    # plot_surface = pygame.image.fromstring(matplotlib_plot_rgba_image_data, 
-    #                                        (plot_canvas_width, plot_canvas_height), 
-    #                                        "RGB")
+    # Convert the Matplotlib image data into a Pygame surface
+    plot_surface = pygame.image.fromstring(matplotlib_plot_rgba_image_data, 
+                                           (plot_canvas_width, plot_canvas_height), 
+                                           "RGB")
 
-    # # Display the plot on the Pygame screen
-    # display_screen.blit(plot_surface, (300, 50))  # Place the plot at position (300, 50)
+    # Display the plot on the Pygame screen
+    display_screen.blit(plot_surface, (300, 50))  # Place the plot at position (300, 50)
 
     # Update the display to show changes
     pygame.display.update()

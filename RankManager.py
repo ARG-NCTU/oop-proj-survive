@@ -30,12 +30,20 @@ class RankManager:
                 self.data.plot(kind='bar', x='player_name', y='score')
             
             plt.title('Ranking')
-            plt.xlabel('Time')
+            plt.xlabel('Player')
             plt.ylabel('Score')
             # make the plot look better
             plt.tight_layout()
             # make the x-axis items horizontal
             plt.xticks(rotation=0)
+            # set the color gray of the bars
+            for i in range(len(self.data)):
+                if i ==0:
+                    plt.gca().get_children()[i].set_color('#FF9600')
+                else:
+                    plt.gca().get_children()[i].set_color('#6C6C6C')
+            #remove the legend
+            plt.gca().get_legend().remove()
             # show the plot
             plt.show()
         else:
