@@ -9,6 +9,7 @@ import Setting as s
 ### Note that the coordinates follow the pymunk coordinate system
 ### where (0, 0) is at the bottom left corner of the screen
 
+#test
 
 
 #initialize the pygame
