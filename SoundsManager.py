@@ -1,5 +1,9 @@
-import pygame
 import random
+import os
+os.environ['SDL_AUDIODRIVER'] = 'alsa'
+os.environ['AUDIODEV'] = 'hw:2,0'
+import pygame
+pygame.mixer.init()
 
 class SoundsManager:
     def __init__(self):
