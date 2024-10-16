@@ -1,7 +1,7 @@
 import random
 import os
 os.environ['SDL_AUDIODRIVER'] = 'alsa'
-os.environ['AUDIODEV'] = 'hw:2,0'
+os.environ['AUDIODEV'] = 'hw:0,0'
 import pygame
 pygame.mixer.init()
 
