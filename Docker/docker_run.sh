@@ -43,6 +43,6 @@ docker run \
     --network host \
     --privileged \
     --security-opt seccomp=unconfined \
-    argnctu/oop:latest \
+    argnctu/oop:survive \
     $BASH_OPTION
 xhost -
