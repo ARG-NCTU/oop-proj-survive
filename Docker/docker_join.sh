@@ -2,7 +2,9 @@
 
 BASH_OPTION=bash
 
-IMG=argnctu/oop:survive
+REPO_NAME="brian247/aoop2024"
+TAG="survive"
+IMG="${REPO_NAME}:${TAG}"
 
 xhost +
 containerid=$(docker ps -aqf "ancestor=${IMG}") && echo $containerid

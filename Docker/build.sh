@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY="argnctu/oop"
+REPOSITORY="brian247/aoop2024"
 TAG="survive"
 IMG="${REPOSITORY}:${TAG}"
 
@@ -48,3 +48,5 @@ echo "=================================================="
 echo "Start building image"
 
 docker buildx build --load --rm "$@" -f "${DOCKERFILE_PATH}" -t "${IMG}" "${SCRIPT_PATH}"
+
+docker push ${IMG}
